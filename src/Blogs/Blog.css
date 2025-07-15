@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.community{
+    width: 100%;
+    max-width: 1400px; /* Adjust this value as needed */
+    margin: 0 auto; /* Center the div */
+}
+.parent-container {
+    display: flex;
+    flex-direction: column; /* or row */
+    width: 100%;
+  }
+  

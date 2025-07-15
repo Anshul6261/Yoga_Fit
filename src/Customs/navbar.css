@@ -1,0 +1,11 @@
+.nav-links a {
+    color: #0C646F;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none; /* Optional: Prevent underline unless hovered */
+  }
+  
+  .nav-links a:hover {
+    text-decoration: underline;
+  }
+  
