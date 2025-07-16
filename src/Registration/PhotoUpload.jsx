@@ -5,7 +5,7 @@ import axios from 'axios';
 const PhotoUpload = ({ currentPhoto, onUpload }) => {
     const [isUploading, setIsUploading] = useState(false);
     const [error, setError] = useState('');
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -18,7 +18,7 @@ const PhotoUpload = ({ currentPhoto, onUpload }) => {
             formData.append('photo', file);
 
             const response = await axios.put(
-                'http://localhost:5000/auth/profile-photo',
+                `${API_BASE_URL}/auth/profile-photo`,
                 formData,
                 {
                     headers: {

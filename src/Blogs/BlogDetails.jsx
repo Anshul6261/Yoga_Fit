@@ -11,14 +11,14 @@ function BlogDetails() {
   const [user, setUser] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   // Fetch blog and comments
   useEffect(() => {
     const fetchBlogAndComments = async () => {
       try {
         const [blogResponse, commentsResponse] = await Promise.all([
-          axios.get(`http://localhost:5000/blogs/${id}`),
-          axios.get(`http://localhost:5000/blogs/${id}/comments`)
+          axios.get(`${API_BASE_URL}/blogs/${id}`),
+          axios.get(`${API_BASE_URL}/blogs/${id}/comments`)
         ]);
 
         setBlog(blogResponse.data);

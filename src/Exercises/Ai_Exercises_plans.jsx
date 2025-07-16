@@ -9,7 +9,7 @@ const Ai_Exercises_plans = () => {
     const [medicalCondition, setMedicalCondition] = useState("");
     const [preferences, setPreferences] = useState("");
     const [loading, setLoading] = useState(false);
-
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const handleCategoryChange = (e) => {
         const value = e.target.value;
         setCategory((prev) => 

@@ -6,7 +6,7 @@ function New_blog() {
   const [currentUserName, setCurrentUserName] = useState(null);
   const [profilePhoto, setprofilePhoto] = useState(null);
   const [user, setUser] = useState(null);
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 useEffect(() => {
   const getUser = () => {
     const token = localStorage.getItem('token');
@@ -78,7 +78,7 @@ useEffect(() => {
       };
 
       // Send POST request to /api/blogs
-      const response = await axios.post('http://localhost:5000/blogs', payload);
+      const response = await axios.post(`${API_BASE_URL}/blogs`, payload);
 
       if (!response.data) {
         throw new Error('Failed to post the discussion.');

@@ -7,7 +7,7 @@ import './Exercises.css';
 const ExerciseSuggestions = () => {
     const location = useLocation();
     const { category, focusArea, experienceLevel, duration, medicalCondition, preferences } = location.state;
-
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const [, setSuggestions] = useState("");
     const [exerciseDetails, setExerciseDetails] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -205,7 +205,7 @@ const fetchExerciseDetails = async (exerciseIDs) => {
     try {
         const exercises = await Promise.all(
             exerciseIDs.map(async (_id) => {
-                const response = await fetch(`http://localhost:5000/exercises/_id/${_id}`);
+                const response = await fetch(`${API_BASE_URL}/exercises/_id/${_id}`);
                 if (!response.ok) return null; // Ignore exercises not found
                 const data = await response.json();
                 return data;

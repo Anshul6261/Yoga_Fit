@@ -2,6 +2,8 @@ import  { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import React from 'react';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+console.log("API_BASE_URL", API_BASE_URL);
 function Blogs() {
 const [currentUserName, setCurrentUserName] = useState(null);
     useEffect(() => {
@@ -39,7 +41,7 @@ const [currentUserName, setCurrentUserName] = useState(null);
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/blogs');
+      const response = await axios.get(`${API_BASE_URL}/blogs`);
       setBlogs(response.data);
     } catch (err) {
       console.error('Error while fetching blogs:', err);
@@ -54,7 +56,7 @@ const [currentUserName, setCurrentUserName] = useState(null);
     }));
     
     // Then call the server to update the database
-    axios.put(`http://localhost:5000/blogs/${blogId}/like`)
+    axios.put(`${API_BASE_URL}/blogs/${blogId}/like`)
       .catch(err => console.error('Error while liking the blog:', err));
   };
   

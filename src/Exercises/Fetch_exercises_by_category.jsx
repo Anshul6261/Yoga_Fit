@@ -7,12 +7,12 @@ const Fetch_exercises_by_category = () => {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
 //   const apiUrl = import.meta.env.VITE_API_BASE_URL;
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     const fetchExercises = async () => {
       try {
         // Fetch exercises for the specific category
-        const response = await fetch(`http://localhost:5000/exercises/category/${category}`);
+        const response = await fetch(`${API_BASE_URL}/exercises/category/${category}`);
         const data = await response.json();
         // console.log(data);
         setExercises(data);

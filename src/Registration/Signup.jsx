@@ -14,7 +14,7 @@ const Signup = () => {
     const [isUploading, setIsUploading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -48,7 +48,7 @@ const Signup = () => {
             }
 
             const response = await axios.post(
-                "http://localhost:5000/auth/register",
+                `${API_BASE_URL}/auth/register`,
                 formDataToSend,
                 {
                     headers: {

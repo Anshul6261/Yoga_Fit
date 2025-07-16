@@ -6,7 +6,8 @@ const Login = () => {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const location = useLocation(); 
- 
+ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -16,7 +17,7 @@ const Login = () => {
         setError("");
 
         try {
-            const response = await fetch("http://localhost:5000/auth/login", { // Replace with your API endpoint
+            const response = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),

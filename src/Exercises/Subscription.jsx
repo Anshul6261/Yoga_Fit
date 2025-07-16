@@ -5,6 +5,7 @@ import "./Subscription.css";
 function Subscription() {
     const navigate = useNavigate();
     const [subscribingPlan, setSubscribingPlan] = useState(null);
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
     const plans = [
         { name: "monthly", price: 200, duration: 1 },
@@ -25,7 +26,7 @@ function Subscription() {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/subscribe", {
+            const response = await fetch(`${API_BASE_URL}/subscribe`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

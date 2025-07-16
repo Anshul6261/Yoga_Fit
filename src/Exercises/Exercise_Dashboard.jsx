@@ -5,7 +5,7 @@ function Exercises() {
     const navigate = useNavigate();
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     useEffect(() => {
         // Initial check
         checkAuthStatus();
@@ -28,7 +28,7 @@ const checkAuthStatus = async () => {
 
     if (token) {
         try {
-            const res = await fetch("http://localhost:5000/check-subscription", {
+            const res = await fetch(`${API_BASE_URL}/check-subscription`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`

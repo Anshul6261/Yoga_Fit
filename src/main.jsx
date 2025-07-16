@@ -14,7 +14,7 @@ import Signup from './Registration/Signup.jsx'
 import Login from './Registration/Login.jsx'
 import HomePage from './Home/HomePage.jsx'
 import Exercises_Dashboard from './Exercises/Exercise_Dashboard.jsx'
-import Fetch_exercises_by_category from './Exercises/fetch_exercises_by_category.jsx'
+import Fetch_exercises_by_category from './Exercises/Fetch_exercises_by_category.jsx'
 import Fetch_exercises_by_id from './Exercises/Fetch_exercises_by_id.jsx';
 import Ai_Exercises_plans from './Exercises/Ai_Exercises_plans.jsx';
 import Fetch_exercises_by_ai  from './Exercises/Fetch_exercises_by_ai.jsx';
