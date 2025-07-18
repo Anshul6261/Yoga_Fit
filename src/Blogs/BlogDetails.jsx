@@ -93,25 +93,27 @@ function BlogDetails() {
         content: newReply
       });
   
-      // setComments(prevComments =>
-      //   prevComments.map(comment => {
-      //     if (comment._id === commentId) {
-      //       return { ...comment, replies: [...(comment.replies || []), response.data] };
-      //     }
-      //     return comment;
-      //   })
-      // );
-      setComments(prevComments =>
-  prevComments.map(comment => {
-    if (comment._id === commentId) {
-      const updatedReplies = Array.isArray(comment.replies) 
-        ? [...comment.replies, response.data]
-        : [response.data];
-      return { ...comment, replies: updatedReplies };
-    }
-    return comment;
-  })
-);
+//       setComments(prevComments =>
+//   prevComments.map(comment => {
+//     if (comment._id === commentId) {
+//       const updatedReplies = Array.isArray(comment.replies) 
+//         ? [...comment.replies, response.data]
+//         : [response.data];
+//       return { ...comment, replies: updatedReplies };
+//     }
+//     return comment;
+//   })
+// );
+
+    setComments(prevComments =>
+      prevComments.map(comment =>
+        // If this is the comment we replied to, replace it with the updated one from the server.
+        // Otherwise, keep the existing comment.
+        comment._id === commentId ? response.data : comment
+      )
+    );
+
+
       setNewReply('');
       setActiveReplyBox(null);
     } catch (err) {
@@ -123,9 +125,7 @@ function BlogDetails() {
   if (!blog) {
     return <div>Loading...</div>; // Show loading state
   }
-//   console.log('Current user:', user.fullName);
-// console.log('Blog author:', blog.author);
-// const isAuthor = user && user.fullName === blog.author; 
+
 const isAuthor =  user && (currentUserName === blog.author);
   return (
     <>
@@ -196,13 +196,7 @@ const isAuthor =  user && (currentUserName === blog.author);
                 </div>
               )}
 
-              {/* Show replies */}
-              {/* {comment.replies && comment.replies.map(reply => (
-                <div key={reply._id} className="ml-4 mt-2 border-l pl-4">
-                  <p className="font-bold">{reply.author}</p>
-                  <p>{reply.content}</p>
-                </div>
-              ))} */}
+
               {comment.replies?.map((reply, replyIndex) => (
   <div key={reply._id || reply.date} className="ml-8 mt-2 p-2 bg-gray-50 rounded">
     <div className="flex items-center">
@@ -217,7 +211,7 @@ const isAuthor =  user && (currentUserName === blog.author);
             </div>
           ))}
 
-          {/* Add New Comment */}
+
           <div className="mt-4">
             <input
               type="text"
