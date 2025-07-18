@@ -57,7 +57,7 @@ function BlogDetails() {
     const confirmed = window.confirm('Are you sure you want to delete this blog post?');
     if (confirmed) {
       try {
-        await axios.delete(`http://localhost:5000/blogs/${blog._id}`);
+        await axios.delete(`${API_BASE_URL}/blogs/${blog._id}`);
         alert('Blog post deleted successfully!');
         navigate('/blogs');
       } catch (err) {
@@ -73,7 +73,7 @@ function BlogDetails() {
     if (!newComment) return;
 
     try {
-      const response = await axios.post(`http://localhost:5000/blogs/${id}/comments`, {
+      const response = await axios.post(`${API_BASE_URL}/blogs/${id}/comments`, {
         author: currentUserName ,
         content: newComment
       });
@@ -88,7 +88,7 @@ function BlogDetails() {
     if (!newReply) return;
   
     try {
-      const response = await axios.post(`http://localhost:5000/blogs/${id}/comments/${commentId}/replies`, {
+      const response = await axios.post(`${API_BASE_URL}/blogs/${id}/comments/${commentId}/replies`, {
         author: currentUserName,
         content: newReply
       });
