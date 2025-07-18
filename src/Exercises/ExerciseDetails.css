@@ -40,12 +40,12 @@
     min-width: 300px; /* Ensures image has some minimum width */
   }
   
-  img {
+  /* img {
     max-width: 100%;
     height: auto;
     border-radius: 10px;
     object-fit: cover;
-  }
+  } */
   
   /* Section for Steps and About side by side */
   .exercise-info {

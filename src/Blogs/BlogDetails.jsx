@@ -75,7 +75,8 @@ function BlogDetails() {
     try {
       const response = await axios.post(`${API_BASE_URL}/blogs/${id}/comments`, {
         author: currentUserName ,
-        content: newComment
+        content: newComment,
+        imageUrl: user.profilePhoto || 'https://via.placeholder.com/50'
       });
       setComments(prevComments => [...prevComments, response.data]);
       setNewComment('');
@@ -90,29 +91,21 @@ function BlogDetails() {
     try {
       const response = await axios.post(`${API_BASE_URL}/blogs/${id}/comments/${commentId}/replies`, {
         author: currentUserName,
-        content: newReply
+        content: newReply,
+        imageUrl: user.profilePhoto || 'https://via.placeholder.com/50'
       });
   
-//       setComments(prevComments =>
-//   prevComments.map(comment => {
-//     if (comment._id === commentId) {
-//       const updatedReplies = Array.isArray(comment.replies) 
-//         ? [...comment.replies, response.data]
-//         : [response.data];
-//       return { ...comment, replies: updatedReplies };
-//     }
-//     return comment;
-//   })
-// );
-
-    setComments(prevComments =>
-      prevComments.map(comment =>
-        // If this is the comment we replied to, replace it with the updated one from the server.
-        // Otherwise, keep the existing comment.
-        comment._id === commentId ? response.data : comment
-      )
-    );
-
+      setComments(prevComments =>
+  prevComments.map(comment => {
+    if (comment._id === commentId) {
+      const updatedReplies = Array.isArray(comment.replies) 
+        ? [...comment.replies, response.data]
+        : [response.data];
+      return { ...comment, replies: updatedReplies };
+    }
+    return comment;
+  })
+);
 
       setNewReply('');
       setActiveReplyBox(null);
@@ -167,7 +160,18 @@ const isAuthor =  user && (currentUserName === blog.author);
           <h3 className="text-lg font-semibold mb-2">Comments:</h3>
           {comments.map(comment => (
             <div key={comment._id} className="mb-4">
-              <p className="font-bold">{comment.author}</p>
+              <div className="flex items-center my-4">
+                <img
+                  src={comment.imageUrl || 'https://via.placeholder.com/50'}
+                  alt={comment.author}
+                  className="w-12 h-12 rounded-full object-cover mr-4"
+                />
+                <p className="font-bold">{comment.author}</p>
+                <span className="text-xs text-gray-500 ml-2">
+                  {new Date(comment.createdAt).toLocaleString()}
+                </span>
+              </div>
+
               <p>{comment.content}</p>
 
               {/* Reply Section */}
@@ -200,7 +204,16 @@ const isAuthor =  user && (currentUserName === blog.author);
               {comment.replies?.map((reply, replyIndex) => (
   <div key={reply._id || reply.date} className="ml-8 mt-2 p-2 bg-gray-50 rounded">
     <div className="flex items-center">
-      <span className="font-semibold">{reply.author}</span>
+      
+              <div className="flex items-center my-4">
+                <img
+                  src={reply.imageUrl || 'https://via.placeholder.com/50'}
+                  alt={reply.author}
+                  className="w-12 h-12 rounded-full object-cover mr-4"
+                />
+                <p className="font-bold">{reply.author}</p>
+              </div>
+      {/* <span className="font-semibold">{reply.author}</span> */}
       <span className="text-xs text-gray-500 ml-2">
   {new Date(reply.date).toLocaleString()}
       </span>

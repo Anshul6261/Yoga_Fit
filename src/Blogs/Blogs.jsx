@@ -2,28 +2,36 @@ import  { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import React from 'react';
+import { set } from 'mongoose';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 console.log("API_BASE_URL", API_BASE_URL);
 function Blogs() {
 const [currentUserName, setCurrentUserName] = useState(null);
-    useEffect(() => {
-    const getCurrentUserName = () => {
-      const token = localStorage.getItem('token');
-      if (!token) return null;
-      
-      try {
-        // Decode the token payload
-        const user = JSON.parse(atob(token.split('.')[1]));
-        return user.fullName || user.username || null;
-      } catch (error) {
-        console.error('Error decoding token:', error);
-        return null;
-      }
-    };
+const [user, setUser] = useState(null);
+const [userID, setUserID] = useState(null);
 
-    const userName = getCurrentUserName();
-    setCurrentUserName(userName);
-  }, []);
+
+useEffect(() => {
+  const getCurrentUserName = () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+      const user = JSON.parse(atob(token.split('.')[1]));
+      setUser(user);
+      setUserID(user.id);
+      setCurrentUserName(user.fullName || user.username || null);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+    }
+  };
+
+  getCurrentUserName();
+}, []);
+  
+console.log('Decoded User:', user);
+
+  console.log("userID", userID);
   const [blogs, setBlogs] = useState([]);
   const navigate = useNavigate();
 
@@ -47,17 +55,31 @@ const [currentUserName, setCurrentUserName] = useState(null);
       console.error('Error while fetching blogs:', err);
     }
   };
-  const handleLike = (blogId) => {
-    setBlogs(blogs.map(blog => {
+  const handleLike = (blogId ,userID) => {
+
+    const blog = blogs.find(blog => blog._id === blogId);
+    if (!blog) return;
+
+    const userAlreadyLiked = blog.likes.find(like => like.userId === userID);
+    if (userAlreadyLiked) {
+      return;
+    }else{
+ 
+          setBlogs(blogs.map(blog => {
       if (blog._id === blogId) {
-        return { ...blog, likes: blog.likes + 1 };
+        return {
+          ...blog,
+          likes: [...blog.likes, { userId: userID, count: 1 }]
+        };
       }
       return blog;
     }));
-    
+
     // Then call the server to update the database
-    axios.put(`${API_BASE_URL}/blogs/${blogId}/like`)
+    axios.put(`${API_BASE_URL}/blogs/${blogId}/like`, {userId: userID})
       .catch(err => console.error('Error while liking the blog:', err));
+    }
+    
   };
   
 
@@ -128,14 +150,15 @@ const [currentUserName, setCurrentUserName] = useState(null);
       </div>
 
       {/* Like Section */}
-      <div className="flex flex-col items-center ml-4">
+      <div className=" flex flex-col items-center ml-4 rounded-md p-1">
         <button
-          onClick={() => handleLike(blog._id)}
-          className="bg-gray-50 px-2 py-1 rounded-md hover:bg-gray-200 transition text-sm"
+          onClick={() => handleLike(blog._id ,userID) }
+          className=" hover:bg-gray-200 transition text-sm"
+          style={{backgroundColor: 'gray'}}
         >
-          👍{blog.likes}
+          👍{blog.likes.length}
         </button>
-        {/* <span className="mt-1 text-gray-700 text-xs" style={{ paddingRight: '10px' }}>{blog.likes} Likes</span> */}
+      
       </div>
     </div>
   ))}

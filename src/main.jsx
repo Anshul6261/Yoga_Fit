@@ -84,10 +84,10 @@ const router = createBrowserRouter(
           path:'/blogs/:id',
           element: <BlogDetails/>
           },
-          {
-          path: '/blogs',
-          element: <Blogs />  // Add route for Blogs
-          },
+          // {
+          // path: '/blogs',
+          // element: <Blogs />  // Add route for Blogs
+          // },
           {
           path:'photo_upload',
           element:<PhotoUpload/>
