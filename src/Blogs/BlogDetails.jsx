@@ -1,7 +1,8 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+
 function BlogDetails() {
   const [blog, setBlog] = useState(null);
   const [comments, setComments] = useState([]);
@@ -12,7 +13,7 @@ function BlogDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-  // Fetch blog and comments
+
   useEffect(() => {
     const fetchBlogAndComments = async () => {
       try {
@@ -23,8 +24,6 @@ function BlogDetails() {
 
         setBlog(blogResponse.data);
         setComments(commentsResponse.data);
-        console.log('Fetched blog:', blogResponse.data);
-        console.log('Fetched comments:', commentsResponse.data);
       } catch (err) {
         console.error('Error fetching blog or comments:', err);
       }
@@ -32,16 +31,16 @@ function BlogDetails() {
 
     fetchBlogAndComments();
   }, [id]);
+
   const [currentUserName, setCurrentUserName] = useState(null);
   useEffect(() => {
     const getCurrentUserName = () => {
       const token = localStorage.getItem('token');
       if (!token) return null;
-      
+
       try {
-        // Decode the token payload
         const user = JSON.parse(atob(token.split('.')[1]));
-        setUser(user); // Store user info for later use
+        setUser(user);
         return user.fullName || user.username || null;
       } catch (error) {
         console.error('Error decoding token:', error);
@@ -52,7 +51,7 @@ function BlogDetails() {
     const userName = getCurrentUserName();
     setCurrentUserName(userName);
   }, []);
-  // Function to handle blog deletion
+
   const handleDelete = async () => {
     const confirmed = window.confirm('Are you sure you want to delete this blog post?');
     if (confirmed) {
@@ -66,15 +65,13 @@ function BlogDetails() {
       }
     }
   };
-  
 
-  // Function to handle adding a new comment
   const handleAddComment = async () => {
     if (!newComment) return;
 
     try {
       const response = await axios.post(`${API_BASE_URL}/blogs/${id}/comments`, {
-        author: currentUserName ,
+        author: currentUserName,
         content: newComment,
         imageUrl: user.profilePhoto || 'https://via.placeholder.com/50'
       });
@@ -87,25 +84,25 @@ function BlogDetails() {
 
   const handleAddReply = async (commentId) => {
     if (!newReply) return;
-  
+
     try {
       const response = await axios.post(`${API_BASE_URL}/blogs/${id}/comments/${commentId}/replies`, {
         author: currentUserName,
         content: newReply,
         imageUrl: user.profilePhoto || 'https://via.placeholder.com/50'
       });
-  
+
       setComments(prevComments =>
-  prevComments.map(comment => {
-    if (comment._id === commentId) {
-      const updatedReplies = Array.isArray(comment.replies) 
-        ? [...comment.replies, response.data]
-        : [response.data];
-      return { ...comment, replies: updatedReplies };
-    }
-    return comment;
-  })
-);
+        prevComments.map(comment => {
+          if (comment._id === commentId) {
+            const updatedReplies = Array.isArray(comment.replies)
+              ? [...comment.replies, response.data]
+              : [response.data];
+            return { ...comment, replies: updatedReplies };
+          }
+          return comment;
+        })
+      );
 
       setNewReply('');
       setActiveReplyBox(null);
@@ -113,136 +110,179 @@ function BlogDetails() {
       console.error('Error adding reply:', err);
     }
   };
+
+// console.log(localStorage.getItem('token'));
+
   
+const handleDeleteComment = async (commentId) => {
+  const token = localStorage.getItem('token');
+
+  try {
+    await axios.delete(`${API_BASE_URL}/blogs/${id}/comments/${commentId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    setComments(prev => prev.filter(c => c._id !== commentId));
+  } catch (err) {
+    console.error('Error deleting comment:', err);
+  }
+};
+
+
+const handleDeleteReply = async (commentId, replyId) => {
+  const token = localStorage.getItem('token');
+  try {
+    await axios.delete(`${API_BASE_URL}/blogs/${id}/comments/${commentId}/replies/${replyId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setComments(prevComments =>
+      prevComments.map(comment => {
+        if (comment._id === commentId) {
+          const updatedReplies = comment.replies.filter(reply => reply._id !== replyId);
+          return { ...comment, replies: updatedReplies };
+        }
+        return comment;
+      })
+    );
+  } catch (err) {
+    console.error('Error deleting reply:', err);
+  }
+};
+
 
   if (!blog) {
-    return <div>Loading...</div>; // Show loading state
+    return <div className="text-center text-gray-500 py-10">Loading...</div>;
   }
 
-const isAuthor =  user && (currentUserName === blog.author);
+  const isAuthor = user && (currentUserName === blog.author);
+
   return (
-    <>
-      <div
-        className="details-box p-6 rounded-lg shadow-lg"
-        style={{
-          backgroundColor: '#f9fcfd',
-          width: '80%',
-          margin: '0 auto',
-          marginTop: '30px'
-        }}
+    <div className="max-w-3xl mx-auto bg-white shadow-md rounded-2xl p-6 mt-10">
+      <div className="flex justify-between items-start">
+        <h1 className="text-3xl font-bold text-gray-800 leading-snug">{blog.title}</h1>
+
+      </div>
+
+<div className="flex justify-between items-center mt-4 text-gray-500">
+  <div className="flex items-center">
+    <img src={blog.imageUrl || 'https://via.placeholder.com/50'} alt={blog.title} className="w-10 h-10 rounded-full object-cover mr-3" />
+    <span className="text-sm">By <strong>{blog.author}</strong> • {new Date(blog.datePosted).toLocaleDateString()}</span>
+  </div>
+
+  {isAuthor && (
+    <button
+      onClick={handleDelete}
+      className="bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded-md shadow ml-4"
+    >
+      Delete
+    </button>
+  )}
+</div>
+
+      <div className="mt-6 text-gray-700 leading-relaxed whitespace-pre-line">{blog.content}</div>
+
+
+      <div className="mt-8">
+        <h3 className="text-xl font-semibold mb-4">💬 Comments</h3>
+        {comments.map(comment => (
+          <div key={comment._id} className="mb-6 border-t pt-4">
+            <div className="flex items-center">
+              <img src={comment.imageUrl || 'https://via.placeholder.com/50'} alt={comment.author} className="w-10 h-10 rounded-full object-cover mr-3" />
+              <div>
+                <p className="font-semibold text-gray-800">{comment.author}</p>
+                <span className="text-xs text-gray-500">{new Date(comment.createdAt).toLocaleString()}</span>
+              </div>
+            </div>
+            {/* <p className="mt-2 text-gray-700">{comment.content}</p> */}
+            <p className="mt-2 text-gray-700">{comment.content}</p>
+
+
+  <div className="flex justify-between items-center mt-4">
+ <button onClick={() => setActiveReplyBox(comment._id)} className="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded-md shadow ml-4">Reply</button>
+          
+{currentUserName === comment.author && (
+  <button
+    onClick={() => handleDeleteComment(comment._id)}
+    className="bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded-md shadow ml-4"
+  >
+    Delete Comment
+  </button>
+)}        
+  </div>
+            {activeReplyBox === comment._id && (
+              <div className="mt-4">
+                <input
+                  type="text"
+                  value={newReply}
+                  onChange={(e) => setNewReply(e.target.value)}
+                  placeholder="Write a reply..."
+                  className="border border-gray-300 rounded px-3 py-2 w-full"
+                />
+                <button
+                  onClick={() => handleAddReply(comment._id)}
+                  className="bg-blue-600 text-white px-4 py-2 mt-2 rounded-md"
+                >
+                  Submit Reply
+                </button>
+              </div>
+            )}
+
+            {comment.replies?.map(reply => (
+<div key={reply._id || reply.date} className="ml-6 mt-4 p-3 bg-gray-100 rounded-lg">
+
+  <div className="flex justify-between items-start">
+    <div className="flex items-center">
+      <img
+        src={reply.imageUrl || 'https://via.placeholder.com/50'}
+        alt={reply.author}
+        className="w-8 h-8 rounded-full object-cover mr-2"
+      />
+      <div>
+        <p className="text-sm font-semibold">{reply.author}</p>
+        <span className="text-xs text-gray-500 block">
+          {new Date(reply.date).toLocaleString()}
+        </span>
+      </div>
+    </div>
+
+    {currentUserName === reply.author && (
+      <button
+        onClick={() => handleDeleteReply(comment._id, reply._id)}
+        className="bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded-md shadow ml-4"
       >
-    <div className="upper-portion" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-      <h2 className="text-2xl font-bold text-gray-800">{blog.title}</h2>
-      {isAuthor && ( // Show delete button only if the user is the author
-        <div className="mt-4">
+        Delete Reply
+      </button>
+    )}
+  </div>
+
+  <p className="mt-2 text-sm text-gray-700">{reply.content}</p>
+</div>
+
+            ))}
+          </div>
+        ))}
+
+        <div className="mt-6">
+          <input
+            type="text"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Add a comment..."
+            className="border border-gray-300 rounded p-3 w-full"
+          />
           <button
-            onClick={handleDelete}
-            className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition"
+            onClick={handleAddComment}
+            className="bg-blue-600 text-white px-4 py-2 mt-2 rounded-md"
           >
-            Delete Blog
+            Submit Comment
           </button>
         </div>
-      )}
-    </div>
-
-        <div className="flex items-center my-4">
-          <img
-            src={blog.imageUrl || 'https://via.placeholder.com/50'}
-            alt={blog.title}
-            className="w-12 h-12 rounded-full object-cover mr-4"
-          />
-          <p className="text-gray-600">By {blog.author} • {new Date(blog.datePosted).toLocaleDateString()}</p>
-        </div>
-        <p className="text-gray-700">{blog.content}</p>
-
-        {/* Comment Section */}
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold mb-2">Comments:</h3>
-          {comments.map(comment => (
-            <div key={comment._id} className="mb-4">
-              <div className="flex items-center my-4">
-                <img
-                  src={comment.imageUrl || 'https://via.placeholder.com/50'}
-                  alt={comment.author}
-                  className="w-12 h-12 rounded-full object-cover mr-4"
-                />
-                <p className="font-bold">{comment.author}</p>
-                <span className="text-xs text-gray-500 ml-2">
-                  {new Date(comment.createdAt).toLocaleString()}
-                </span>
-              </div>
-
-              <p>{comment.content}</p>
-
-              {/* Reply Section */}
-              <button
-                className="bg-blue-500 text-white hover:bg-blue-600 px-2 py-1 rounded-md text-sm"
-                onClick={() => setActiveReplyBox(comment._id)}
-              >
-                Reply
-              </button>
-
-              {activeReplyBox === comment._id && (
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    value={newReply}
-                    onChange={(e) => setNewReply(e.target.value)}
-                    placeholder="Write a reply..."
-                    className="border border-gray-300 rounded p-2 w-full"
-                  />
-                  <button
-                    onClick={() => handleAddReply(comment._id)}
-                    className="bg-blue-600 text-white px-4 py-2 mt-2 rounded-md"
-                  >
-                    Submit Reply
-                  </button>
-                </div>
-              )}
-
-
-              {comment.replies?.map((reply, replyIndex) => (
-  <div key={reply._id || reply.date} className="ml-8 mt-2 p-2 bg-gray-50 rounded">
-    <div className="flex items-center">
-      
-              <div className="flex items-center my-4">
-                <img
-                  src={reply.imageUrl || 'https://via.placeholder.com/50'}
-                  alt={reply.author}
-                  className="w-12 h-12 rounded-full object-cover mr-4"
-                />
-                <p className="font-bold">{reply.author}</p>
-              </div>
-      {/* <span className="font-semibold">{reply.author}</span> */}
-      <span className="text-xs text-gray-500 ml-2">
-  {new Date(reply.date).toLocaleString()}
-      </span>
-    </div>
-    <p>{reply.content}</p>
-  </div>
-))}
-            </div>
-          ))}
-
-
-          <div className="mt-4">
-            <input
-              type="text"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Add a comment..."
-              className="border border-gray-300 rounded p-2 w-full"
-            />
-            <button
-              onClick={handleAddComment}
-              className="bg-blue-600 text-white px-4 py-2 mt-2 rounded-md"
-            >
-              Submit Comment
-            </button>
-          </div>
-        </div>
       </div>
-    </>
+    </div>
   );
 }
 

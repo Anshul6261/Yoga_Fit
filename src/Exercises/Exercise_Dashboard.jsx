@@ -67,7 +67,7 @@ const handleAiPlanClick = async () => {
                 <div className="exercises-card create-card">
                     <h2>Explore All Exercises and Yogas</h2>
                    
-                    <img src="/yoga-asanas.png" alt="photo of student" />
+                    <img src="/all_exercises(4).png" alt="photo of student" />
                     <p>Discover a variety of exercises and yoga asanas we have in store for you.</p>
                     <a href="/all_exercises" className="exercises-btn">Explore Now</a>
                 </div>
@@ -75,15 +75,15 @@ const handleAiPlanClick = async () => {
                 {/* Card to get exercises from a curated plan */}
                 <div className="exercises-card create-card">
                     <h2>Get Exercises from a Curated Plan</h2>
-                    <img src='/vya.jpeg'></img>
+                    <img src='/schedule.png'></img>
                     <p>Receive tailored exercise plans based on your preferences and goals.</p>
                     <a href="/exercises/curated-plans" className="exercises-btn">Get Started</a>
                 </div>
                 
                 {/* Card for AI-generated yoga suggestions */}
                 <div className="exercises-card join-card">
-                    <h2>Try Our New AI Feature</h2>
-                    <img src='/Yoga_and_Artificial_Intelligence.webp' alt="AI Yoga" />
+                    <h2>Personalized Yoga with AI Magic</h2>
+                    <img src='/ai_image.png' alt="AI Yoga" />
                     <p>Generate personalized yoga routines based on your requirements using AI.</p>
                     <button onClick={handleAiPlanClick} className="exercises-btn">Try Now</button>
                 </div>

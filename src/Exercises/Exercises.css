@@ -14,6 +14,7 @@
     align-items: center;
     flex-wrap: wrap;
     margin-top: 20px;
+    
 }
 
 /* Card styles */
@@ -24,8 +25,8 @@
     padding: 20px;
     margin: 20px;
     text-align: center;
-    width: 300px; /* Fixed card width */
-    height: 400px; /* Fixed card height */
+    width: 340px; /* Fixed card width */
+    height: 450px; /* Fixed card height */
     display: flex;
     flex-direction: column;
     justify-content: space-between;

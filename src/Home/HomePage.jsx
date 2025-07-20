@@ -1,6 +1,67 @@
 import "./HomePage.css";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";  
+
+
 const HomePage = () => {
+const navigate = useNavigate();
+    const [isSubscribed, setIsSubscribed] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+    useEffect(() => {
+        // Initial check
+        checkAuthStatus();
+        
+        // Listen for storage changes
+        const handleStorageChange = () => {
+            checkAuthStatus();
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
+
+const checkAuthStatus = async () => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+
+    if (token) {
+        try {
+            const res = await fetch(`${API_BASE_URL}/check-subscription`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const data = await res.json();
+            setIsSubscribed(data.subscribed);
+        } catch (error) {
+            console.error("Failed to check subscription", error);
+            setIsSubscribed(false);
+        }
+    } else {
+        setIsSubscribed(false);
+    }
+};
+
+
+  const handleAiPlanClick = async () => {
+    await checkAuthStatus(); // Make sure subscription is freshly verified
+
+    if (!isLoggedIn) {
+        navigate("/Login", { state: { from: location.pathname } });
+    } else if (!isSubscribed) {
+        navigate("/subscription");
+    } else {
+        navigate("/exercises/Ai-plans");
+    }
+};
   return (
     <div>
 
@@ -9,11 +70,14 @@ const HomePage = () => {
         <div className="quote flexible">
   <h1 className="quote-heading">Fitness That Fits Into Your Lifestyle.</h1>
   <h2 className="quote-subheading">Friendly fitness plans that suit your schedule and goals.</h2>
-  <button 
+  
+    <button 
     className="btn quote-button" 
-    onClick={() => window.location.href = '/profile'}>
-    Try us free for 14 days
+    onClick={handleAiPlanClick}>
+    Try Our AI Plan
   </button>
+ 
+
 </div>
 <div className="cards fexible">
 
