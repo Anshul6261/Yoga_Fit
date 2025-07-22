@@ -4,7 +4,7 @@ import './ExerciseDetails.css';
 
 
 const Fetch_exercises_by_id = () => {
-  const { _id } = useParams(); // Get exercise ID from the route parameters
+  const { _id } = useParams(); 
   const [exercise, setExercise] = useState(null);
   const [loading, setLoading] = useState(true);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -14,7 +14,7 @@ const Fetch_exercises_by_id = () => {
       try {
         const response = await fetch(`${API_BASE_URL}/exercises/_id/${_id}`);
         const data = await response.json();
-        // console.log(data);
+        
         setExercise(data);
       } catch (error) {
         console.error('Error fetching exercise:', error);

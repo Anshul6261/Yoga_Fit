@@ -1,0 +1,114 @@
+.about-page {
+    font-family: 'Arial', sans-serif;
+    background-color: #E0EFE7;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Hero Section */
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto; /* Center the section itself */
+    background: url('/path-to-hero-image.jpg') center center/cover no-repeat;
+    height: 60vh;
+    width: 85%; /* Full width for proper centering */
+     border-radius: 15px;
+}
+.hero-section img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+   
+}
+
+.hero-overlay {
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    max-width: 700px;
+}
+
+.hero-overlay h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.hero-overlay p {
+    font-size: 1.25rem;
+    margin-bottom: 30px;
+}
+
+.cta-btn {
+    background-color: #FF6B6B;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cta-btn:hover {
+    background-color: #e55757;
+}
+
+/* Two Column Section */
+.two-column-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 50px 20px;
+}
+
+.column {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    margin: 20px;
+}
+
+.column h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #222;
+    text-align: center;
+}
+
+/* Cards Grid */
+.cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.info-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+}
+
+.info-card h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.info-card p {
+    font-size: 0.95rem;
+    color: #666;
+}

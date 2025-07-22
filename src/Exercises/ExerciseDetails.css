@@ -146,17 +146,20 @@
   .bold-heading {
     font-weight: bold;
   }
-  .image-container {
-    display: inline-block; /* Keeps the container only as wide as the image */
-    background-color: #f0f0f0; /* Background color of your choice */
-    padding: 15px; /* Add padding around the image */
-    border-radius: 10px; /* Optional: Add rounded corners to the background */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
-  }
-  
-  .image-container img {
-    display: block; /* Ensures image doesn't add extra space */
-    max-width: 100%; /* Makes sure the image doesn't exceed the container */
-    border-radius: 8px; /* Optional: Rounds the image corners to match background */
-  }
-  
+.image-container {
+    display: flex;                   /* Enables flexbox layout */
+    justify-content: center;         /* Centers horizontally */
+    align-items: center;             /* Centers vertically */
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 300px;                   /* Ensure fixed height for vertical centering */
+}
+
+.image-container img {
+    max-width: 100%;                  /* Adjust as needed */
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}

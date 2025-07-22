@@ -62,7 +62,7 @@ const handleAiPlanClick = async () => {
     return (
      <div>
     <div className="exercises-page">
-            <div className="exercises-container">
+            <div className="exercises-container three-card-center">
                 {/* Card to explore all exercises and yoga */}
                 <div className="exercises-card create-card">
                     <h2>Explore All Exercises and Yogas</h2>
@@ -72,20 +72,20 @@ const handleAiPlanClick = async () => {
                     <a href="/all_exercises" className="exercises-btn">Explore Now</a>
                 </div>
                 
-                {/* Card to get exercises from a curated plan */}
-                <div className="exercises-card create-card">
-                    <h2>Get Exercises from a Curated Plan</h2>
-                    <img src='/schedule.png'></img>
-                    <p>Receive tailored exercise plans based on your preferences and goals.</p>
-                    <a href="/exercises/curated-plans" className="exercises-btn">Get Started</a>
-                </div>
-                
                 {/* Card for AI-generated yoga suggestions */}
                 <div className="exercises-card join-card">
                     <h2>Personalized Yoga with AI Magic</h2>
                     <img src='/ai_image.png' alt="AI Yoga" />
                     <p>Generate personalized yoga routines based on your requirements using AI.</p>
                     <button onClick={handleAiPlanClick} className="exercises-btn">Try Now</button>
+                </div>
+
+                                {/* Card to get exercises from a curated plan */}
+                <div className="exercises-card create-card">
+                    <h2>Get Exercises from a Curated Plan</h2>
+                    <img src='/schedule.png'></img>
+                    <p>Receive tailored exercise plans based on your preferences and goals.</p>
+                    <a href="/exercises/curated-plans" className="exercises-btn">Get Started</a>
                 </div>
             </div>
         </div>

@@ -41,7 +41,7 @@ const Fetch_exercises_by_category = () => {
                 <img 
                   src={exercise.image_link} 
                   alt={exercise.name} 
-                  style={{ width: '100%', height: 'auto', borderRadius: '8px' }} 
+                  // style={{ width: '100%', height: 'auto', borderRadius: '8px' }} 
                 />
                 <h3>{exercise.name}</h3>
                 <p>{exercise.description}</p>

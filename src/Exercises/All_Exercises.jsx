@@ -9,7 +9,7 @@ function All_Exercises() {
           {/* Yoga Asanas Card */}
           <div className="exercises-card create-card">
           <img 
-              src="/yoga-asanas.png" 
+              src="/yoga_asana.jpeg" 
               alt="Yoga Asanas" 
               style={{ width: '100%', height: 'auto', borderRadius: '8px' }} // Inline styles
             />
@@ -21,7 +21,7 @@ function All_Exercises() {
           {/* Pranayama Card */}
           <div className="exercises-card create-card">
           <img 
-              src="/pranayama.png" 
+              src="/pranayama_3.png" 
               alt="Pranayama" 
               style={{ width: '100%', height: 'auto', borderRadius: '8px' }} // Inline styles
             />
@@ -33,7 +33,7 @@ function All_Exercises() {
           {/* Dands and Baithaks Card */}
           <div className="exercises-card create-card">
           <img 
-              src="/baithak.jpg" 
+              src="/dands_baithaks.jpeg" 
               alt="Pranayama" 
               style={{ width: '100%', height: 'auto', borderRadius: '8px' }} // Inline styles
             />
@@ -45,8 +45,8 @@ function All_Exercises() {
           {/* Vyayam Card */}
           <div className="exercises-card create-card">
           <img 
-              src="/vya.jpeg" 
-              alt="Pranayama" 
+              src="/vyayam.jpeg" 
+              alt="Vyayam" 
               style={{ width: '100%', height: 'auto', borderRadius: '8px' }} // Inline styles
             />
             <h2>Vyayam</h2>
@@ -57,7 +57,7 @@ function All_Exercises() {
           {/* Talwarbazi Card */}
           <div className="exercises-card create-card">
           <img 
-              src="/tal.png" 
+              src="/talwarbazi.jpeg" 
               alt="Pranayama" 
               style={{ width: '100%', height: 'auto', borderRadius: '8px' }} // Inline styles
             />
@@ -69,8 +69,8 @@ function All_Exercises() {
           {/* Silambam Card */}
           <div className="exercises-card create-card">
           <img 
-              src="/sil.png" 
-              alt="Pranayama" 
+              src="/silambam.jpeg" 
+              alt="Silambam" 
               style={{ width: '100%', height: 'auto', borderRadius: '8px' }} // Inline styles
             />
             <h2>Silambam</h2>
@@ -81,8 +81,8 @@ function All_Exercises() {
           {/* Kalaripayattu Card */}
           <div className="exercises-card create-card">
           <img 
-              src="/kal.jpeg" 
-              alt="Pranayama" 
+              src="/kalaripayattu.jpeg" 
+              alt="Kalaripayattu" 
               style={{ width: '100%', height: 'auto', borderRadius: '8px' }} // Inline styles
             />
             <h2>Kalaripayattu</h2>
