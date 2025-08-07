@@ -1,26 +1,24 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
-const JWT_SECRET = process.env.MY_JWT_SECRET;
-console.log("JWT_SECRET:", JWT_SECRET); // Log the secret to server console
-
 const authenticateJWT = (req, res, next) => {
-    const authHeader = req.header("Authorization");
+    const token = req.header("Authorization");
+    // console.log("Token received:", token); // Debugging line to check token
+    
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return res.status(401).json({ message: "Authorization token missing or invalid format" });
-    }
-
-    const token = authHeader.split(" ")[1];
+    if (!token) return res.status(401).json({ success: false, message: "Access denied. No token provided." });
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token.split(" ")[1], process.env.MY_JWT_SECRET);
         req.user = decoded;
-        next();
+        next(); // ✅ Go to the next handler
     } catch (err) {
-        return res.status(401).json({ message: "Invalid token" });
+        return res.status(401).json({ // 👈 return to stop execution
+            success: false,
+            message: "Access token expired"
+        });
     }
 };
 
-export default authenticateJWT;
+export default authenticateJWT; // ✅ Exporting correctly for ES Modules

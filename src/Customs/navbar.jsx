@@ -82,7 +82,7 @@ function Navbar() {
                 color: "white"
               }}
             >
-              Register
+              Sign up
             </Link>
           </div>
         ) : (

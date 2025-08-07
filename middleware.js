@@ -17,4 +17,7 @@ const authenticateJWT = (req, res, next) => {
     }
 };
 
-export default authenticateJWT; // ✅ Exporting correctly for ES Modules
+export default authenticateJWT; 
+
+
+

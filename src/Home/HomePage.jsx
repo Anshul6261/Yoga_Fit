@@ -39,8 +39,17 @@ const checkAuthStatus = async () => {
                 }
             });
 
-            const data = await res.json();
+          
+
+if (res.status === 401) {
+  // Token expired
+  localStorage.removeItem("token");
+
+  navigate("/login", { state: { from: location.pathname } });
+}
+   const data = await res.json();
             setIsSubscribed(data.subscribed);
+
         } catch (error) {
             console.error("Failed to check subscription", error);
             setIsSubscribed(false);
