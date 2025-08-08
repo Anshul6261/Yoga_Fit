@@ -2,7 +2,7 @@ import "./HomePage.css";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";  
-
+import About from "../About/AboutUs.jsx";
 
 const HomePage = () => {
 const navigate = useNavigate();
@@ -134,80 +134,88 @@ if (res.status === 401) {
         </section>
         <section id="about" className="sec-padding">
           <h3 className="section-heading">ABOUT US</h3>
-          <div className="sec-content-div flexible">
+          {/* <div className="sec-content-div flexible">
             <p>
               The FitQuest is designed to support users in achieving their goals while prioritizing their physical health...
             </p>
             <img src="/people-practicing-exercise-athletes-characters-free-vector.jpg" alt="People playing basketball" />
-          </div>
+          </div> */}
+          <About />
         </section>
-        <section id="varieties" className="sec-padding" style={{ backgroundColor: "rgba(224, 239, 237, 1)" }}>
-          <h3 className="section-heading">WORKOUT PLANS</h3>
-          <div className="sec-content-div flexible">
-            <div className="tile">
-              <img src="/student.jpg" alt="photo of student" />
-              <h4>STUDENT</h4>
-              <ul>
-                <li>Bodyweight Exercises</li>
-                <li>Time-Efficient</li>
-                <li>Stress Relief</li>
-                <li>Variety and Fun</li>
-              </ul>
-            </div>
-            <div className="tile">
-              <img src="/employee.jpg" alt="Corporate Employee" />
-              <h4>Corporate Employee</h4>
-              <ul>
-                <li>Effective Time Management</li>
-                <li>Interval Training</li>
-                <li>Office-Friendly Exercises</li>
-                <li>Stress Reduction</li>
-              </ul>
-            </div>
-            <div className="tile">
-              <img src="/remote.png" alt="Remote Workers" />
-              <h4>Remote Workers</h4>
-              <ul>
-                <li>Home Workouts</li>
-                <li>Ergonomics</li>
-                <li>Balanced Routines</li>
-                <li>Digital Detox</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-        <section id="our-service" className="sec-padding" style={{ backgroundColor: "rgba(224, 239, 237, 1)" }}>
-          <h3 className="section-heading" >OUR SERVICE</h3>
-          <div className="sec-content-div">
-            <div className="bars">
-              <div className="icon-container">
-                <img src="/effectiveworkout.gif" alt="Effective Workouts" />
-              </div>
-              <div className="txt-container">
-                <h5>Effective Fitness plans</h5>
-                <p>We provide satisfactory workout plans that users can customize.</p>
-              </div>
-            </div>
-            <div className="bars">
-              <div className="icon-container">
-                <img src="/huddle.gif" alt="Community" />
-              </div>
-              <div className="txt-container">
-                <h5>COMMUNITY</h5>
-                <p>Connect with people with similar interests and work out in groups.</p>
-              </div>
-            </div>
-            <div className="bars">
-              <div className="icon-container">
-                <img src="/events.gif" alt="Events" />
-              </div>
-              <div className="txt-container">
-                <h5>EVENTS</h5>
-                <p>Join or create events and invite friends and families to enjoy.</p>
-              </div>
-            </div>
-          </div>
-        </section>
+
+<section className="academy-section">
+  {/* Banner Section */}
+  <div className="academy-banner">
+    <div className="academy-text">
+      <h2>Take your fitness to the next level with the FitQuest Academy</h2>
+      <p>
+        Explore certified programs, short-term challenges, and deep-dive courses on yoga, bodyweight training, pranayama, and holistic wellness.
+      </p>
+    </div>
+    
+    <div className="academy-image">
+      <img
+        src="/academy-desktop.webp"
+        alt="Notebook and pen showing planning"
+      />
+    </div>
+  </div>
+
+  {/* Testimonials Section */}
+  <div className="testimonials">
+    {[
+      {
+        title: 'A HEALTHY CHOICE',
+        quote: '“FitQuest has been the best for my mental, spiritual, and physical balance.”',
+        author: 'Melissa'
+      },
+      {
+        title: 'WHAT REALLY MATTERS',
+        quote: '“I feel supported even when I wobble — FitQuest reminds me why I love mindful movement.”',
+        author: 'Sam'
+      },
+      {
+        title: 'CAN’T STOP RECOMMENDING',
+        quote: '“I’ve recommended FitQuest to countless friends — it’s a complete wellness experience.”',
+        author: 'Carole'
+      }
+    ].map((t, index) => (
+      <div className="testimonial-card" key={index}>
+        <div className="stars">★★★★★</div>
+        <h4>{t.title}</h4>
+        <p className="quote">{t.quote}</p>
+        <p className="author">{t.author}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+  
+
+
+
+<section id="our-service" className="services-section" style={{ backgroundColor: "rgba(224, 239, 237, 1)" }}>
+  <h3 className="section-heading">OUR SERVICES</h3>
+  <div className="card-container">
+    <div className="service-card">
+      <img src="/ai_fitness.jpeg" alt="AI Fitness Plans" className="card-icon" />
+      <h5>AI-Personalized Workouts</h5>
+      <p>Get exercise recommendations tailored to your body, goals, and any issues you face, using AI-driven assessments.</p>
+       
+    </div>
+    <div className="service-card">
+      <img src="/all_library.jpeg" alt="All Exercises" className="card-icon" />
+      <h5>Complete Exercise Library</h5>
+      <p>Explore a wide range of exercises including yoga, bodyweight workouts, and breathing techniques—all in one place.</p>
+    </div>
+    <div className="service-card">
+      <img src="/blogs_img.jpeg" alt="Community and Blogs" className="card-icon" />
+      <h5>Community & Blogs</h5>
+      <p>Share experiences, post queries, and connect with like-minded people through our interactive blog and community board.</p>
+    </div>
+  </div>
+</section>
+
 
       </main>
 

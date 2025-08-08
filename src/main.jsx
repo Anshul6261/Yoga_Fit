@@ -23,6 +23,7 @@ import New_blog from './Blogs/New_blog.jsx'
 import BlogDetails from './Blogs/BlogDetails.jsx'
 import PhotoUpload from './Registration/PhotoUpload.jsx';   
 import AboutUs from './About/AboutUs.jsx';
+
 const router = createBrowserRouter(
   [
     {

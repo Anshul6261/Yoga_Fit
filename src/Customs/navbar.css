@@ -8,4 +8,11 @@
   .nav-links a:hover {
     text-decoration: underline;
   }
-  
+  .logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 40px;
+    border-radius: 10px;
+  }

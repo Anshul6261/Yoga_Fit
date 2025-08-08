@@ -1,6 +1,6 @@
 .about-page {
     font-family: 'Arial', sans-serif;
-    background-color: #E0EFE7;
+    background-color:rgba(224, 239, 237, 1);
     color: #333;
     margin: 0;
     padding: 0;
@@ -12,7 +12,7 @@
     align-items: center;
     justify-content: center;
     margin: 20px auto; /* Center the section itself */
-    background: url('/path-to-hero-image.jpg') center center/cover no-repeat;
+    background: url('/about_us.jpeg') center center/cover no-repeat;
     height: 60vh;
     width: 85%; /* Full width for proper centering */
      border-radius: 15px;

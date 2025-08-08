@@ -242,7 +242,7 @@ function Blogs() {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 mt-10">
+    <div className="w-full max-w-4xl mx-auto px-4 mt-10" style={{marginBottom:'50px'}}>
       <div className="flex justify-between items-center mb-6">
         <p className="text-2xl font-bold text-gray-800">Community</p>
         <button

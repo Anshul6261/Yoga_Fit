@@ -38,7 +38,11 @@ function Navbar() {
     <div style={{backgroundColor:" rgba(224, 239, 237, 1)"}}className="flex size-20 justify-between p-4 shadow-md w-full">
       {/* Logo on the top left */}
       <Link to="/">
-        <img src="/logo.png" alt="Logo" width={100} height={100} style={{backgroundColor:"#08656E"}} className="cursor-pointer " />
+        {/* <img src="/logo2.png" alt="Logo" width={100} height={100} style={{backgroundColor:"#08656E"}} className="cursor-pointer " /> */}
+        <div className="logo">
+                  <img src="/logo4.png" alt="Logo" className="cursor-pointer " />
+        </div>
+
       </Link>
 
       {/* Links aligned to the right */}
