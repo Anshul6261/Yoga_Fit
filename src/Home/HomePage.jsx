@@ -147,7 +147,7 @@ if (res.status === 401) {
   {/* Banner Section */}
   <div className="academy-banner">
     <div className="academy-text">
-      <h2>Take your fitness to the next level with the FitQuest Academy</h2>
+      <h2>Take your fitness to the next level with the YOGAFIT </h2>
       <p>
         Explore certified programs, short-term challenges, and deep-dive courses on yoga, bodyweight training, pranayama, and holistic wellness.
       </p>
@@ -166,17 +166,17 @@ if (res.status === 401) {
     {[
       {
         title: 'A HEALTHY CHOICE',
-        quote: '“FitQuest has been the best for my mental, spiritual, and physical balance.”',
+        quote: '“YOGAFIT has been the best for my mental, spiritual, and physical balance.”',
         author: 'Melissa'
       },
       {
         title: 'WHAT REALLY MATTERS',
-        quote: '“I feel supported even when I wobble — FitQuest reminds me why I love mindful movement.”',
+        quote: '“I feel supported even when I wobble — YOGAFIT  reminds me why I love mindful movement.”',
         author: 'Sam'
       },
       {
         title: 'CAN’T STOP RECOMMENDING',
-        quote: '“I’ve recommended FitQuest to countless friends — it’s a complete wellness experience.”',
+        quote: '“I’ve recommended YOGAFIT to countless friends — it’s a complete wellness experience.”',
         author: 'Carole'
       }
     ].map((t, index) => (
