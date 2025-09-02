@@ -93,7 +93,7 @@ if (res.status === 401) {
 <a href="/exercises/Pranayama" className="max-w-sm rounded overflow-hidden shadow-lg box fexible block">
   <img className="w-full" src="IMG_3803-scaled.jpg" alt="Sunset in the mountains"/>
   <div className="px-6 py-4">
-    <div className="font-bold text-xl mb-2">Breathe Into Calmness</div>
+    <div className="font-bold text-xl mb-2 card-heading">Breathe Into Calmness</div>
     <p className="text-gray-700 text-base">
       Master your breath to unlock inner peace, reduce stress, and enhance lung health with the power of Pranayama.
     </p>
@@ -104,7 +104,7 @@ if (res.status === 401) {
 <a href="/exercises/Yoga Asanas" className="max-w-sm rounded overflow-hidden shadow-lg box fexible block">
   <img className="w-full" src="IMG_0106_small-scaled.jpg" alt="Sunset in the mountains"/>
   <div className="px-6 py-4">
-    <div className="font-bold text-xl mb-2">Flow Into Flexibility</div>
+    <div className="font-bold text-xl mb-2 card-heading">Flow Into Flexibility</div>
     <p className="text-gray-700 text-base">
       Rejuvenate your body and mind through graceful yoga postures that build strength, balance, and flexibility.
     </p>
@@ -114,7 +114,7 @@ if (res.status === 401) {
 <a href="/exercises/Vyayam" className="max-w-sm rounded overflow-hidden shadow-lg box fexible block">
  <img className="w-full" src="IMG_5978-scaled.jpg" alt="Sunset in the mountains"/>
   <div className="px-6 py-4">
-    <div className="font-bold text-xl mb-2">Strength the Indian Way</div>
+    <div className="font-bold text-xl mb-2 card-heading">Strength the Indian Way</div>
     <p className="text-gray-700 text-base">
      Rediscover traditional Indian fitness with Vyayam – a blend of movement, endurance, and holistic strength.
     </p>
@@ -124,7 +124,7 @@ if (res.status === 401) {
 <a href="/exercises/Dands and Baithaks" className="max-w-sm rounded overflow-hidden shadow-lg box fexible block">
  <img className="w-full" src="images (5).jpeg" alt="Sunset in the mountains"/>
   <div className="px-6 py-4">
-    <div className="font-bold text-xl mb-2">Power Through Tradition</div>
+    <div className="font-bold text-xl mb-2 card-heading">Power Through Tradition</div>
     <p className="text-gray-700 text-base">
      Train like warriors of the past with Dand Baithak – the timeless secret to agility, power, and discipline.
     </p>

@@ -525,6 +525,19 @@ footer a {
   .front-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    gap: 30px;
+    padding: 10px;
   }
+    .front-cards a {
+    margin: 0 auto; /* cards center ho jaye */
+    width: 100%; /* full width use kare */
+    max-width: 350px; /* lekin jyada bada na ho */
+  }
+
+}
+.card-heading{
+  color:#004d40
+}
+.front-cards p{
+  color:#333
 }
