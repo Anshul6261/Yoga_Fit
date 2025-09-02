@@ -85,7 +85,7 @@ const handleAiPlanClick = async () => {
                     <h2>Get Exercises from a Curated Plan</h2>
                     <img src='/schedule.png'></img>
                     <p>Receive tailored exercise plans based on your preferences and goals.</p>
-                    <a href="/exercises/curated-plans" className="exercises-btn">Get Started</a>
+                    <a href="current_plan_exercises" className="exercises-btn">Get Started</a>
                 </div>
             </div>
         </div>

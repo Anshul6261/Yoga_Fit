@@ -23,6 +23,7 @@ import New_blog from './Blogs/New_blog.jsx'
 import BlogDetails from './Blogs/BlogDetails.jsx'
 import PhotoUpload from './Registration/PhotoUpload.jsx';   
 import AboutUs from './About/AboutUs.jsx';
+import Current_Plan_Exercises from './Exercises/Current_Plan_Exercises.jsx';
 
 const router = createBrowserRouter(
   [
@@ -97,6 +98,10 @@ const router = createBrowserRouter(
           {
             path:'aboutus',
             element:<AboutUs/>  
+          },
+          {
+            path:'/current_plan_exercises',
+            element:<Current_Plan_Exercises/>
           }
       ],
     },
