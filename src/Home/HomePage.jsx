@@ -88,7 +88,7 @@ if (res.status === 401) {
  
 
 </div>
-<div className="cards fexible">
+<div className="cards fexible front-cards">
 
 <a href="/exercises/Pranayama" className="max-w-sm rounded overflow-hidden shadow-lg box fexible block">
   <img className="w-full" src="IMG_3803-scaled.jpg" alt="Sunset in the mountains"/>
