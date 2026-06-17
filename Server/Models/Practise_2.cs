@@ -188,4 +188,81 @@ namespace dotnetapp.Models
     }
 }
  
+ dotnetapp/Models/LibraryCard.cs :
+ 
+using System.Collections;
+using System.ComponentModel.DataAnnotations;
+namespace dotnetapp.Models
+{
+    public class LibraryCard
+    {
+        [Key]
+        public int Id{get;set;}
+ 
+        [Required]
+        [RegularExpression(@"LC-\d{5}",ErrorMessage = "CardNumber must be in formart LC-12345")]
+        public string CardNumber{get;set;} = null;
+ 
+        [Required]
+        [MaxLength(100)]
+        public string MemberName{get;set;} = null;
+ 
+        public DateTime ExpiryDate{get;set;}
+ 
+        // Navigation: one Library Card -> Many Books
+        public ICollection<Book> Books{get;set;} = new List<Book>();
+    }
+}
+ 
+ 
+ 
+dotnetapp/Models/BookValidator.cs :
+ 
+ 
+using FluentValidation;
+using System.Linq;
+namespace dotnetapp.Models
+{
+    public class BookValidator : AbstractValidator<Book>
+    {
+    public BookValidator()
+    {
+        RuleFor(b=>b.Title)
+            .NotEmpty()
+            .MaximumLength(100);
+        RuleFor(b=>b.Author)
+            .NotEmpty()
+            .MaximumLength(50);
+        RuleFor(b=>b.PublishedYear)
+            .InclusiveBetween(1000, 2024);
+    }
+    }
+}
+ 
+ 
+dotnetapp/Models/LibraryCardValidator.cs  :
+ 
+ 
+ 
+using FluentValidation;
+using System.Linq;
+namespace dotnetapp.Models
+{
+    public class LibraryCardValidator : AbstractValidator<LibraryCard>
+    {
+        public LibraryCardValidator()
+        {
+            RuleFor(c=>c.CardNumber)
+                .NotEmpty()
+                .Matches(@"LC-\d{5}");
+ 
+            RuleFor(c=>c.MemberName)
+                .NotEmpty()
+                .MaximumLength(100);
+           
+            RuleFor(c=>c.ExpiryDate)
+                .GreaterThan(System.DateTime.MinValue);
+        }
+    }
+}
  
