@@ -265,4 +265,48 @@ namespace dotnetapp.Models
         }
     }
 }
- 
+
+using System;
+using Microsoft.EntityFrameworkCore;
+using dotnetapp.Models;
+
+namespace dotnetapp.Data
+{
+    public class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options)
+        {
+        }
+
+        public DbSet<Book> Books { get; set; } = null!;
+        public DbSet<LibraryCard> LibraryCards { get; set; } = null!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<LibraryCard>()
+                .HasMany(l => l.Books)
+                .WithOne(b => b.LibraryCard)
+                .HasForeignKey(b => b.LibraryCardId);
+
+            modelBuilder.Entity<LibraryCard>().HasData(
+                new LibraryCard
+                {
+                    Id = 1,
+                    CardNumber = "LC-12345",
+                    MemberName = "John Doe",
+                    ExpiryDate = new DateTime(2025, 12, 31)
+                },
+                new LibraryCard
+                {
+                    Id = 2,
+                    CardNumber = "LC-54321",
+                    MemberName = "Jane Smith",
+                    ExpiryDate = new DateTime(2024, 10, 15)
+                }
+            );
+        }
+    }
+}
