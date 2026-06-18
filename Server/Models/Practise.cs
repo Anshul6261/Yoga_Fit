@@ -44,15 +44,13 @@ img {
     <h2>LOGIN FORM</h2>
 
     <div class="login-form">
-        <form>
-            <label for="username">Username:</label><br><br>
-            <input type="text" id="username"><br><br>
+        <label for="username">Username:</label><br><br>
+        <input type="text" id="username"><br><br>
 
-            <label for="password">Password:</label><br><br>
-            <input type="password" id="password"><br><br>
+        <label for="password">Password:</label><br><br>
+        <input type="password" id="password"><br><br>
 
-            <input type="submit" value="Login">
-        </form>
+        <button type="submit">Login</button>
     </div>
 
 </body>
@@ -70,10 +68,10 @@ h2 {
 
 .login-form {
     width: 400px;
-    margin: 0 auto;
+    margin: auto;
     border: 1px solid lightgray;
     border-radius: 5px;
-    padding: 30px;
+    padding: 20px;
 }
 
 #username,
@@ -84,7 +82,7 @@ h2 {
     box-sizing: border-box;
 }
 
-input[type="submit"] {
+button {
     width: 100%;
     padding: 10px;
     background-color: rgb(0, 0, 255);
