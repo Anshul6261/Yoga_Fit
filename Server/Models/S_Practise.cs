@@ -1,580 +1,120 @@
-//COD1
-
-controller
-using Microsoft.AspNetCore.Mvc;
+ORDER
+ 
+PROGRAM.CS ORDER
 using dotnetapp.Services;
-using dotnetapp.Models;
-
-namespace dotnetapp.Controllers
-{
-    [ApiController]
-    [Route("api/books")]
-    public class BookController : ControllerBase
-    {
-        private readonly IBookService service;
-
-        public BookController(IBookService _service)
-        {
-            service = _service;
-        }
-
-        [HttpGet]
-        public ActionResult<List<Book>> GetAllBooks()
-        {
-            var evt = service.GetBooks();
-
-            if (evt == null)
-                return NoContent();
-
-            return Ok(evt);
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<Book> GetBookById(int id)
-        {
-            var evt = service.GetBook(id);
-
-            if (evt == null)
-                return NotFound();
-
-            return Ok(evt);
-        }
-
-        [HttpPost]
-        public ActionResult<Book> AddBook([FromBody] Book book)
-        {
-            if (book == null)
-                return BadRequest();
-
-            var evt = service.SaveBook(book);
-            return Ok(evt);
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateBook(int id, [FromBody] Book book)
-        {
-            if (book == null)
-                return BadRequest();
-
-            var upd = service.UpdateBook(id, book);
-
-            if (upd == null)
-                return NotFound();
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteBook(int id)
-        {
-            service.DeleteBook(id);
-            return NoContent();
-        }
-    }
-}
-
-//order contoller
-
-using Microsoft.AspNetCore.Mvc;
-using dotnetapp.Models;
-using dotnetapp.Services;
-
-namespace dotnetapp.Controllers
-{
-    [ApiController]
-    [Route("api/orders")]
-    public class OrderController : ControllerBase
-    {
-        private readonly IOrderService service;
-
-        public OrderController(IOrderService _service)
-        {
-            service = _service;
-        }
-
-        [HttpGet]
-        public ActionResult<List<Order>> GetAllOrders()
-        {
-            return Ok(service.GetOrders());
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<Order> GetOrderById(int id)
-        {
-            var evt = service.GetOrder(id);
-
-            if (evt == null)
-                return NotFound();
-
-            return Ok(evt);
-        }
-
-        [HttpPost]
-        public ActionResult<Order> AddOrder([FromBody] Order order)
-        {
-            if (order == null)
-                return BadRequest();
-
-            return Ok(service.SaveOrder(order));
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateOrder(int id, [FromBody] Order order)
-        {
-            if (order == null)
-                return BadRequest();
-
-            service.UpdateOrder(id, order);
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteOrder(int id)
-        {
-            service.DeleteOrder(id);
-            return NoContent();
-        }
-    }
-}
-
-models
-Book in data folder
-using System.ComponentModel.DataAnnotations;
-namespace dotnetapp.Models{
-    
-    public class Book{
-        [Key]
-        public int BookId{get;set;}
-        public string BookName{get;set;}
-        public string Category {get;set;}
-        
-        public decimal Price {get;set;}
-        
-    }
-}
-Order.cs in data folder
-using System.ComponentModel.DataAnnotations;
-namespace dotnetapp.Models{
-    public class Order{
-        [Key]
-        public int OrderId{get;set;}
-        public string CustomerName{get;set;}
-        public decimal TotalAmount{get;set;}
-    }
-}
-
-
-repositoryy
-BookRepository.cs
-
-using dotnetapp.Models;
-
-namespace dotnetapp.Repository
-{
-    public class BookRepository
-    {
-        public List<Book> books = new();
-        private int nid = 1;
-
-        public List<Book> GetBooks() => books;
-
-        public Book GetBook(int id)
-        {
-            return books.FirstOrDefault(x => x.BookId == id);
-        }
-
-        public Book SaveBook(Book book)
-        {
-            book.BookId = nid++;
-            books.Add(book);
-            return book;
-        }
-
-        public Book UpdateBook(int id, Book book)
-        {
-            Book b = books.FirstOrDefault(x => x.BookId == id);
-
-            if (b != null)
-            {
-                b.BookName = book.BookName;
-                b.Category = book.Category;
-                b.Price = book.Price;
-            }
-
-            return b;
-        }
-
-        public bool DeleteBook(int id)
-        {
-            Book b = books.FirstOrDefault(x => x.BookId == id);
-
-            if (b != null)
-            {
-                books.Remove(b);
-                return true;
-            }
-
-            return false;
-        }
-    }
-}
-
-OrderRepository.cs
-using dotnetapp.Models;
-
-namespace dotnetapp.Repository
-{
-    public class OrderRepository
-    {
-        public List<Order> orders = new();
-        private int nid = 1;
-
-        public List<Order> GetOrders() => orders;
-
-        public Order GetOrder(int id)
-        {
-            return orders.FirstOrDefault(x => x.OrderId == id);
-        }
-
-        public Order SaveOrder(Order order)
-        {
-            order.OrderId = nid++;
-            orders.Add(order);
-            return order;
-        }
-
-        public Order UpdateOrder(int id, Order order)
-        {
-            Order o = orders.FirstOrDefault(x => x.OrderId == id);
-
-            if (o != null)
-            {
-                o.CustomerName = order.CustomerName;
-                o.TotalAmount = order.TotalAmount;
-            }
-
-            return o;
-        }
-
-        public bool DeleteOrder(int id)
-        {
-            Order o = orders.FirstOrDefault(x => x.OrderId == id);
-
-            if (o != null)
-            {
-                orders.Remove(o);
-                return true;
-            }
-
-            return false;
-        }
-    }
-}
-
-services/
- BookService.cs
- using dotnetapp.Models;
- using dotnetapp.Repository;
- namespace dotnetapp.Services{
-    public interface IBookService
-    {
-        List<Book> GetBooks();
-        Book GetBook(int id);
-        Book SaveBook(Book book);
-        Book UpdateBook(int id, Book book);
-        bool DeleteBook(int id);
-    }
-    public class BookService : IBookService
-    {
-        private readonly BookRepository brepo;
-
-        public BookService(BookRepository _brepo)
-        {
-            brepo = _brepo;
-        }
-
-        public List<Book> GetBooks() => brepo.GetBooks();
-        public Book GetBook(int id) => brepo.GetBook(id);
-        public Book SaveBook(Book book) => brepo.SaveBook(book);
-        public Book UpdateBook(int id, Book book) => brepo.UpdateBook(id, book);
-        public bool DeleteBook(int id) => brepo.DeleteBook(id);
-    }
-    
-}
-OrderService.cs
- using dotnetapp.Models;
-using dotnetapp.Repository;
-
-namespace dotnetapp.Services{
-    public interface IOrderService
-    {
-        List<Order> GetOrders();
-        Order GetOrder(int id);
-        Order SaveOrder(Order order);
-        Order UpdateOrder(int id, Order order);
-        bool DeleteOrder(int id);
-    }
-    public class OrderService : IOrderService
-    {
-        private readonly OrderRepository orepo;
-
-        public OrderService(OrderRepository _orepo)
-        {
-            orepo = _orepo;
-        }
-
-        public List<Order> GetOrders() => orepo.GetOrders();
-        public Order GetOrder(int id) => orepo.GetOrder(id);
-        public Order SaveOrder(Order order) => orepo.SaveOrder(order);
-        public Order UpdateOrder(int id, Order order) => orepo.UpdateOrder(id, order);
-        public bool DeleteOrder(int id) => orepo.DeleteOrder(id);
-    }
-}
-
-program.cs
-using dotnetapp.Repository;
-using dotnetapp.Services;
-
+ 
 var builder = WebApplication.CreateBuilder(args);
-
+ 
+// Add Event services to the container.
+builder.Services.AddSingleton<OrderService>();
 builder.Services.AddControllers();
-
-builder.Services.AddSingleton<BookRepository>();
-builder.Services.AddSingleton<OrderRepository>();
-
-builder.Services.AddScoped<IBookService, BookService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+ 
 var app = builder.Build();
-
+ 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+ 
 app.UseHttpsRedirection();
+ 
 app.UseAuthorization();
-
+ 
 app.MapControllers();
-
+ 
 app.Run();
-
-//swagger cod = 2
-
-/home/coder/project/workspace/dotnetapp/Controllers/MobilePhoneController.cs
-using dotnetapp.Services;
-using Microsoft.AspNetCore.Mvc;
-using dotnetapp.Models;
-
-namespace dotnetapp.Controllers
-{
-    [ApiController]
-    [Route("api/[controller]")]
-    public class MobilePhoneController : ControllerBase
-    {
-        private IMobilePhoneService service;
-
-        public MobilePhoneController(IMobilePhoneService _service)
-        {
-            service = _service;
-        }
-
-        [HttpGet]
-        public IActionResult GetAllMobilePhones()
-        {
-            return Ok(service.GetMobilePhones());
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetMobilePhoneById(int id)
-        {
-            var evt = service.GetMobilePhone(id);
-
-            if (evt == null)
-                return NotFound();
-
-            return Ok(evt);
-        }
-
-        [HttpPost]
-        public IActionResult AddMobilePhone(MobilePhone mobilePhone)
-        {
-            service.SaveMobilePhone(mobilePhone);
-
-            return CreatedAtAction(
-                nameof(GetMobilePhoneById),
-                new { id = mobilePhone.MobilePhoneId },
-                mobilePhone
-            );
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateMobilePhone(int id, MobilePhone mobilePhone)
-        {
-            var ump = service.GetMobilePhone(id);
-
-            if (ump == null)
-                return NotFound();
-
-            service.UpdateMobilePhone(id, mobilePhone);
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteMobilePhone(int id)
-        {
-            service.DeleteMobilePhone(id);
-            return NoContent();
-        }
-    }
-}
-/home/coder/project/workspace/dotnetapp/Models/MobilePhone.cs
+ 
+ 
+ORDER.CS
+using System;
 namespace dotnetapp.Models
 {
-    public class MobilePhone
-    {
-        public int MobilePhoneId { get; set; }
-        public string Brand { get; set; }
-        public string Model { get; set; }
-        public decimal Price { get; set; }
-        public int StockQuantity { get; set; }
-    }
+     public class Order
+     {
+        public int OrderId {get;set;}
+        public string CustomerName {get;set;}
+        public DateTime OrderDate {get;set;}
+        public decimal TotalAmount {get;set;}
+        public string Status {get;set;}
+ 
+     }
 }
-dotnetapp/Repository/MobilePhoneRepository.cs
-
+ 
+ORDER SERVICE
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using dotnetapp.Models;
-
-namespace dotnetapp.Repository
+using System.Linq;
+ 
+namespace dotnetapp.Services
 {
-    public class MobilePhoneRepository
+    public class OrderService
     {
-        public List<MobilePhone> list = new();
-
-        public List<MobilePhone> GetMobilePhones()
+        private static List<Order> list {get;set;}
+ 
+        public OrderService()
         {
-            return list.ToList();
-        }
-
-        public MobilePhone GetMobilePhone(int id)
-        {
-            return list.FirstOrDefault(x => x.MobilePhoneId == id);
-        }
-
-        public MobilePhone SaveMobilePhone(MobilePhone mobilePhone)
-        {
-            list.Add(mobilePhone);
-            return mobilePhone;
-        }
-
-        public MobilePhone UpdateMobilePhone(int id, MobilePhone mobilePhone)
-        {
-            MobilePhone ump = list.FirstOrDefault(x => x.MobilePhoneId == id);
-
-            ump.Brand = mobilePhone.Brand;
-            ump.Model = mobilePhone.Model;
-            ump.Price = mobilePhone.Price;
-            ump.StockQuantity = mobilePhone.StockQuantity;
-
-            return mobilePhone;
-        }
-
-        public bool DeleteMobilePhone(int id)
-        {
-            MobilePhone dmp = list.FirstOrDefault(x => x.MobilePhoneId == id);
-
-            if (dmp != null)
+            list = new List<Order>
             {
-                list.Remove(dmp);
-                return true;
+            new Order
+            {
+                OrderId=1 ,
+                CustomerName ="John Doe",
+                OrderDate = new DateTime(2023,1,1),
+                TotalAmount=100.50m,
+                Status ="Shipped"
+            },
+            new Order
+            {
+                OrderId=2 ,
+                CustomerName ="Jane Smith",
+                OrderDate = new DateTime(2023,2,15),
+                TotalAmount=250.75m,
+                Status ="Processing"
+            },
+ 
+            new Order
+            {
+                 OrderId=3 ,
+                CustomerName ="Alice Johnson",
+                OrderDate = new DateTime(2023,3,20),
+                TotalAmount=150.00m,
+                Status ="Delivered"
             }
-
-            return false;
-        }
+        };
+ 
     }
-}    
-dotnetapp/Services/IMobilePhoneService.cs
-using dotnetapp.Models;
-using dotnetapp.Repository;
-
-namespace dotnetapp.Services{
-    public interface IMobilePhoneService
+ 
+    public List<Order>GetAllOrders()
     {
-        List<MobilePhone> GetMobilePhones();
-        MobilePhone GetMobilePhone(int id);
-        MobilePhone SaveMobilePhone(MobilePhone mobilePhone);
-        MobilePhone UpdateMobilePhone(int id, MobilePhone mobilePhone);
-        bool DeleteMobilePhone(int id);
+        return list.ToList();
     }
-}
-dotnetapp/Services/MobilePhoneService.cs
-using dotnetapp.Models;
-using dotnetapp.Repository;
-
-namespace dotnetapp.Services{
-     public class MobilePhoneService : IMobilePhoneService
+ 
+    public Order GetOrderById(int orderId)
     {
-        private readonly MobilePhoneRepository repo;
-
-        public MobilePhoneService(MobilePhoneRepository _repo)
-        {
-            repo = _repo;
-        }
-
-        public List<MobilePhone> GetMobilePhones() => repo.GetMobilePhones();
-
-        public MobilePhone GetMobilePhone(int id)
-            => repo.GetMobilePhone(id);
-
-        public MobilePhone SaveMobilePhone(MobilePhone mobilePhone)
-            => repo.SaveMobilePhone(mobilePhone);
-
-        public MobilePhone UpdateMobilePhone(int id, MobilePhone mobilePhone)
-            => repo.UpdateMobilePhone(id, mobilePhone);
-
-        public bool DeleteMobilePhone(int id)
-            => repo.DeleteMobilePhone(id);
+        return list.FirstOrDefault(o => o.OrderId ==orderId);
+ 
     }
+    public void AddOrder(Order newOrder)
+    {
+        if(newOrder==null)
+        return ;
+ 
+   
+    int id=list.Count +1;
+    newOrder.OrderId=id;
+    list.Add(newOrder);
 }
-dotnetapp/Program.cs
-using dotnetapp.Repository;
-using dotnetapp.Services;
-
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddControllers();
-
-builder.Services.AddSingleton<MobilePhoneRepository>();
-builder.Services.AddScoped<IMobilePhoneService, MobilePhoneService>();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+ }
+ 
 }
-
-app.UseHttpsRedirection();
-app.UseAuthorization();
-
-app.MapControllers();
-app.Run();
-
-
-
-//cod 3
-dotnetapp/Controllers/ExpenseController.cs :
  
  
- 
+ORDER CONTROLLER
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -583,165 +123,234 @@ using dotnetapp.Models;
 using dotnetapp.Services;
 using Microsoft.AspNetCore.Mvc;
  
+ 
 namespace dotnetapp.Controllers
 {
     [ApiController]
-    [Route("api/expense")]
-    public class ExpenseController : ControllerBase
+    [Route("api/[controller]")]
+    public class OrderController : ControllerBase
     {
-        ExpenseService expenseService;
-        public ExpenseController(ExpenseService _expenseService)
+        private readonly OrderService orderService;
+        public OrderController(OrderService _orderService)
         {
-            expenseService = _expenseService;
+            orderService = _orderService;
+ 
         }
         [HttpGet]
-        public IActionResult GetAllExpenses()
+        public IActionResult GetAllOrders()
         {
-            var evt = expenseService.GetAllExpenses();
-            if(evt == null)
+            var orders = orderService.GetAllOrders();
+            if(orders==null || orders.Count==0)
             {
                 return NoContent();
             }
-            return Ok(evt);
+ 
+            return Ok(orders);
+ 
         }
  
-        [HttpGet("{expenseId}")]
-        public IActionResult GetExpenseById(int expenseId)
+        [HttpGet("{orderId}")]
+        public IActionResult GetOrderById(int orderId)
         {
-            var evt = expenseService.GetExpenseById(expenseId);
-            if(evt == null)
+            var order = orderService.GetOrderById(orderId);
+            if(order==null)
             {
                 return NotFound();
             }
-            return Ok(evt);
+            return Ok(order);
         }
- 
         [HttpPost]
-        public IActionResult CreateExpense(Expense newExpense)
+ 
+            public IActionResult CreateOrder([FromBody]Order newOrder)
         {
-            if(newExpense==null)
-            {
+            if(newOrder==null)
                 return BadRequest();
-            }
-            expenseService.CreateExpense(newExpense);
-            return CreatedAtAction(nameof(GetExpenseById), new{expenseId=newExpense.ExpenseId},newExpense);
+           
+            orderService.AddOrder(newOrder);
+            return CreatedAtAction(
+                nameof(GetOrderById),new {orderId = newOrder.OrderId},
+                newOrder
+            );
         }
+       
  
-        [HttpPut("{expenseId}")]
-        public IActionResult UpdateExpense(int expenseId, Expense updatedExpense)
-        {
-            if(updatedExpense==null)
-            {
-                return BadRequest();
-            }
-            if(expenseService.GetExpenseById(expenseId)==null)
-            {
-                return NotFound();
-            }
-            return NoContent();
-        }
- 
-        [HttpDelete("{expenseId}")]
-        public IActionResult DeleteExpense(int expenseId)
-        {
-            if(expenseService.GetExpenseById(expenseId)==null)
-            {
-                return NotFound();
-            }
-            return NoContent();
-        }
- 
+       
     }
 }
  
-dotnetapp/Models/Expense.cs :
+PRODUCT
  
  
+PRODUCT CONTROLLER
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using dotnetapp.Models;
+using dotnetapp.Services;
+ 
+namespace dotnetapp.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProductController : ControllerBase
+    {
+         private readonly ProductService productService;
+        public ProductController(ProductService _productService)
+        {
+            productService = _productService;
+        }
+        [HttpGet]
+        public IActionResult GetAllProducts()
+        {
+            return Ok(productService.GetAllProducts());
+        }
+        [HttpGet("{productId}")]
+        public IActionResult GetProductById(int productId)
+        {
+            var evt = productService.GetProductById(productId);
+            if(evt == null)
+                return NotFound();
+ 
+                return Ok(evt);
+           
+        }
+        [HttpPost]
+        public IActionResult CreateProduct([FromBody]Product newproduct)
+        {
+            if(newproduct== null)
+            {
+                return BadRequest();
+            }
+            productService.AddProduct(newproduct);
+            return CreatedAtAction(nameof(GetProductById), new{productId =newproduct.Id},newproduct);
+        }
+ 
+        [HttpPut("{id}")]
+        public IActionResult UpdateProduct(int id,[FromBody]Product updatedProduct)
+        {
+            if(updatedProduct== null)
+            {
+                return BadRequest();
+            }
+            productService.UpdateProduct(id,updatedProduct);
+            return NoContent();
+        }
+ 
+        [HttpDelete("{productId}")]
+ 
+        public IActionResult DeleteProduct(int productId)
+        {
+            productService.DeleteProduct(productId);
+            return NoContent();
+        }
+    }
+}
+ 
+PRODUCT CS
+using System ;
+ 
 namespace dotnetapp.Models
 {
-    public class Expense
+    public class Product
     {
-        public int ExpenseId{get;set;}
-        public string Description{get;set;}
-        public decimal Amount{get;set;}
-        public DateTime Date{get;set;}
-        public string Category{get;set;}
+        public int Id{get;set;}
+        public string Name {get;set;}
+ 
+        public decimal Price {get;set;}
+        public string Description {get;set;}
+       
     }
 }
  
-dotnetapp/Services/ExpenseService.cs :
- 
+PRODUCT SERVICE
  
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using dotnetapp.Models;
+ 
 namespace dotnetapp.Services
 {
-    public class ExpenseService
+    public class ProductService
     {
-        private readonly List<Expense> Expenses = new List<Expense>
+        private static List<Product>products {get;set;}
+        public ProductService()
         {
-            new Expense{ExpenseId=1,Description="Lunch",Amount=15.00m,Date=DateTime.Now.AddDays(-7),Category="Food"},
-            new Expense{ExpenseId=2,Description="Groceries",Amount=50.00m,Date=DateTime.Now.AddDays(-14),Category="Food"},
-            new Expense{ExpenseId=3,Description="Bus Ticket",Amount=2.50m,Date=DateTime.Now.AddDays(-21),Category="Transport"}
-        };
-        public List<Expense> GetAllExpenses()
-        {
-            return Expenses.ToList();
-        }
-        public Expense GetExpenseById(int expenseId)
-        {
-            return Expenses.FirstOrDefault(x=>x.ExpenseId==expenseId);
-        }
-        public void CreateExpense(Expense newExpense)
-        {
-            if(newExpense==null)
+            products= new List<Product>
             {
-                return;
-            }
-            int nextId = Expenses.Count==0?1:Expenses.Max(e=>e.ExpenseId)+1;
-            newExpense.ExpenseId = nextId;
-            Expenses.Add(newExpense);
+                new Product{Id=1, Name="Product 1", Price=10.99m,Description="Description 1"},
+                new Product{Id=2, Name="Product 2", Price=10.99m,Description="Description 2"},
+                new Product{Id=3, Name="Product 3", Price=10.99m,Description="Description 3"},
+            } ;
         }
-        public void UpdateExpense(int expenseId, Expense updatedExpense)
-        {
-            Expense expense = Expenses.FirstOrDefault(e=>e.ExpenseId==expenseId);
-            if(expenseId==null)
+            public List<Product> GetAllProducts()
             {
-                return;
+                return products.ToList();
             }
-            expense.Amount = updatedExpense.Amount;
-            expense.Category = updatedExpense.Category;
-            expense.Date = updatedExpense.Date;
-            expense.Description = updatedExpense.Description;
-        }
-        public void DeleteExpense(int expenseId)
-        {
-            Expense expense = Expenses.FirstOrDefault(e=>e.ExpenseId==expenseId);
-            if(expenseId==null)
+ 
+            public Product GetProductById(int productId)
             {
-                return;
+                return products.FirstOrDefault(p=>p.Id==productId);
+ 
             }
-            Expenses.Remove(expense);
+ 
+            public void AddProduct(Product newProduct)
+            {
+                if(newProduct== null)
+                {
+                    throw new ArgumentNullException("Product is empty");
+                }
+                if(newProduct.Id ==0)
+                {
+                    int nextId = products.Count ==0?1:products.Max(p=>p.Id)+1;
+                    newProduct.Id= nextId;
+                }
+                products.Add(newProduct);
+ 
+            }
+ 
+            public void UpdateProduct(int id,Product updateProduct)
+            {
+                Product findProduct = products.FirstOrDefault(p=>p.Id==id);
+                if(findProduct== null)
+                {
+                    return;
+                }
+                else{
+                    findProduct.Name=updateProduct.Name;
+                    findProduct.Price=updateProduct.Price;
+                    findProduct.Description=updateProduct.Description;
+ 
+                }
+            }
+ 
+            public void DeleteProduct(int id)
+            {
+                Product product = products.FirstOrDefault(p=>p.Id==id);
+                if(product == null)
+                {
+                    return;
+                }
+                products.Remove(product);
+               
+            }
         }
     }
  
-}
  
-dotnetapp/Program.cs :
+PROGRAM
  
  
-using dotnetapp.Models;
 using dotnetapp.Services;
-using dotnetapp.Controllers;
+ 
 var builder = WebApplication.CreateBuilder(args);
  
 // Add Event services to the container.
+builder.Services.AddSingleton<ProductService>();
  
 builder.Services.AddControllers();
-builder.Services.AddSingleton<ExpenseService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
  
@@ -760,6 +369,740 @@ app.UseAuthorization();
 app.MapControllers();
  
 app.Run();
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  
  
+INVENTORY
+ 
+INVENTORY CONTROLLER
+ 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using dotnetapp.Models;
+using dotnetapp.Services;
+using Microsoft.EntityFrameworkCore;
+using dotnetapp.Services;
+ 
+namespace dotnetapp.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class InventoryController : ControllerBase
+    {
+        public InventoryService inventoryService;
+        public InventoryController(InventoryService _inventoryService)
+        {
+            inventoryService =_inventoryService;
+        }
+ 
+        [HttpGet]
+        public IActionResult GetAllInventories()
+        {
+            var e= inventoryService.GetAllItems();
+            if(e==null || e.Count==0)
+             return NotFound();
+ 
+             return Ok(e);
+        }
+ 
+        [HttpGet("{itemId}")]
+        public IActionResult GetInventoriesById(int itemId)
+        {
+            var e= inventoryService.GetItemById(itemId);
+            if(e== null)
+            return NotFound();
+ 
+            return Ok(e);
+        }
+        [HttpPost]
+        public IActionResult CreateInventoryItem(InventoryItem newItem)
+        {
+                if(newItem == null)
+                return BadRequest();
+               
+                inventoryService.AddItem(newItem);
+                return CreatedAtAction(nameof(GetInventoriesById),new {itemId = newItem.ItemId},newItem);
+        }
+       
+    }
+}
+ 
+INVENTORY ITEM
+ 
+ 
+using System.ComponentModel.DataAnnotations;
+namespace dotnetapp.Models
+{
+    // Define the InventoryItem class and its properties here.
+    public class InventoryItem
+    {
+        [Key]
+        public int ItemId {get;set;}
+        public string ItemName {get;set;}
+        public int Quantity {get;set;}
+        public decimal Price {get;set;}
+        public string Category {get;set;}
+ 
+    }
+}
+ 
+ 
+APPDB
+ 
+ 
+using System;
+using dotnetapp.Models;
+using Microsoft.EntityFrameworkCore;
+namespace dotnetapp.Models
+{
+    // Write the ApplicationDbContext class here
+    // Define the DbSet properties for the InventoryItem entity
+    public class ApplicationDbContext:DbContext
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
+        {
+ 
+        }
+        public DbSet<InventoryItem>InventoryItems{get;set;}
+ 
+ 
+    }
+}
+ 
+SERVICE
+ 
+using System;
+using dotnetapp.Models;
+using System.Collections.Generic;
+using System.Linq;
+ 
+namespace dotnetapp.Services
+{
+    //Define InventoryService class here
+ 
+    public class InventoryService
+    {
+    public List<InventoryItem> list{get;set;}
+    private readonly ApplicationDbContext context;
+    public InventoryService(ApplicationDbContext _context)
+    {
+       context =_context;
+       list= new List<InventoryItem>();
+    }
+    public List<InventoryItem>GetAllItems()
+    {
+        if(context != null)
+        {
+            return context.InventoryItems.ToList();
+        }
+        return list.ToList();
+    }
+ 
+    public InventoryItem GetItemById(int itemId)
+    {
+        if(context!=null)
+        {
+            return context.InventoryItems.FirstOrDefault(x => x.ItemId == itemId);
+        }
+        return list.FirstOrDefault(x => x.ItemId == itemId);
+    }
+    public void AddItem(InventoryItem newItem)
+    {
+        if(newItem == null)
+         return;
+ 
+         if(context!=null){
+         context.InventoryItems.Add(newItem);
+         context.SaveChanges();
+         }
+         else
+         {
+            list.Add(newItem);
+         }
+ 
+    }
+    }
+ 
+}
+ 
+PROGRAM CS
+ 
+using dotnetapp.Models;
+using dotnetapp.Services;
+using Microsoft.EntityFrameworkCore;
+ 
+ 
+var builder = WebApplication.CreateBuilder(args);
+ 
+// Add Event services to the container.
+builder.Services.AddScoped<InventoryService>();
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("myconnstring"))
+);
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+ 
+var app = builder.Build();
+ 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+ 
+app.UseHttpsRedirection();
+ 
+app.UseAuthorization();
+ 
+app.MapControllers();
+ 
+app.Run();
+ 
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+     dotnetapp/Controllers/ProductsController.cs
+     using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using dotnetapp.Data;
+using dotnetapp.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace dotnetapp.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProductsController : ControllerBase
+    {   private readonly ApplicationDbContext context;
+        public ProductsController(ApplicationDbContext _context)
+        {
+            context = _context;
+        }
+        [HttpGet]
+        public ActionResult<IEnumerable<Product>>GetProducts()
+        {
+            
+            return Ok(context.Products.ToList());
+        }
+        [HttpGet("{id}")]
+        public ActionResult<Product> GetProductById(int id)
+        {
+            var evt=context.Products.FirstOrDefault(x=>x.Id==id) ;
+            if(evt==null){
+                return NotFound();
+            }
+            return Ok(evt);
+        }
+        [HttpGet("filter")]
+        public ActionResult<IEnumerable<Product>>GetProductsByCategory([FromQuery] string category)
+        {
+            var evt = context.Products.Where(x=>x.Category==category).ToList();
+            if(evt==null){
+                return NotFound();
+            }
+            return Ok(evt);
+        }
+        [HttpPost]
+        public ActionResult<Product> CreateProduct(Product product){
+            context.Products.Add(product);
+            context.SaveChanges();
+            return CreatedAtAction(nameof(GetProductById),new {id=product.Id}, product);
+        }
+
+    }
+}
+dotnetapp/Data/ApplicationDbContext.cs
+
+using Microsoft.EntityFrameworkCore;
+using dotnetapp.Models;
+
+namespace dotnetapp.Data
+{
+    public class ApplicationDbContext: DbContext
+    {
+        public ApplicationDbContext(DbContextOptions options):base(options)
+        {
+
+        }
+
+        public DbSet<Product> Products {get;set;}
+    }
+    
+
+}
+dotnetapp/Models/Product.cs
+
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace dotnetapp.Models{
+    public class Product{
+        [Key]
+        public int Id{get;set;}
+        public string Name{get;set;}
+        public string Category{get;set;}
+        public decimal Price{get;set;}
+        public int Stock{get;set;}
+
+    }
+}
+dotnetapp/Program.cs
+using dotnetapp.Data;
+using dotnetapp.Models;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options=>options.UseSqlServer(builder.Configuration.GetConnectionString("ProductConnection"))
+);
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+
+
+
+cod 2 router
+ 
+controller:
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using dotnetapp.Data;
+using Microsoft.AspNetCore.Mvc;
+using dotnetapp.Models;
+namespace dotnetapp.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ArtworksController : ControllerBase
+    {
+        ApplicationDbContext context;
+        public ArtworksController(ApplicationDbContext _context)
+        {
+            context = _context;
+        }
+        [HttpGet]
+        public ActionResult<IEnumerable<Artwork>> GetArtworks()
+        {
+            var evt = context.Artworks.ToList();
+            if(evt==null)
+            {
+                return NotFound();
+            }
+            return Ok(evt);
+        }
+        [HttpGet("{id}")]
+        public ActionResult<Artwork> GetArtWorkById(int id)
+        {
+            var evt = context.Artworks.FirstOrDefault(x=>x.ArtworkId==id);
+            if(evt==null)
+            {
+                return NotFound();
+            }
+            return Ok(evt);
+        }
+        [HttpGet("filter")]
+        public ActionResult<IEnumerable<Artwork>> GetArtworksByArtist([FromQuery] string artist)
+        {
+            var evt = context.Artworks.Where(x=>x.Artist==artist).ToList();
+            if(evt == null)
+            {
+                return NotFound();
+            }
+            return Ok(evt);
+        }
+        [HttpPost]
+        public ActionResult<Artwork> CreateArtwork(Artwork artwork)
+        {
+            context.Artworks.Add(artwork);
+            context.SaveChanges();
+            return CreatedAtAction(nameof(GetArtWorkById),new{id=artwork.ArtworkId},artwork);
+        }
+    }
+}
+-------------------------------------------------------------------------------------------
+
+ 
+ApplcationDbContext:
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+ 
+using Microsoft.EntityFrameworkCore;
+using dotnetapp.Models;
+namespace dotnetapp.Data
+{
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext(DbContextOptions options) : base(options)
+        {
+        }
+        public DbSet<Artwork> Artworks{get;set;}
+    }
+}
+ 
+-----------------------------------------------------------------------------------
+Models:
+using System.ComponentModel.DataAnnotations;
+namespace dotnetapp.Models
+{
+    public class Artwork
+    {
+    [Key]
+    public int ArtworkId{get;set;}
+    public string Title{get;set;}
+    public string Artist{get;set;}
+    public int Year{get;set;}
+    public string Medium{get;set;}
+    public string Description{get;set;}
+    }
+}
+--------------------------------------------------------
+program.cs:
+ 
+using Microsoft.EntityFrameworkCore;
+using dotnetapp.Models;
+using dotnetapp.Data;
+var builder = WebApplication.CreateBuilder(args);
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options=>options.UseSqlServer(builder.Configuration.GetConnectionString("myconnstring")));
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+var app = builder.Build();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+app.Run();
+--------------------------------------------------------------------------------------
+appsettings.json
+ 
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "myconnstring": "User ID=sa;password=examlyMssql@123;server=localhost;Database=appdb;trusted_connection=false;Persist Security Info=False;Encrypt=False"
+  }
+}
+ 
+ 
+----------------------------------------------------------------
+COD 3 ROUTER:
+ 
+Controller:
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using dotnetapp.Models;
+using dotnetapp.Data;
+using Microsoft.AspNetCore.Mvc;
+namespace dotnetapp.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class PetsController : ControllerBase
+    {
+        ApplicationDbContext context;
+        public PetsController(ApplicationDbContext _context)
+        {
+            context = _context;
+        }
+        [HttpGet]
+        public ActionResult<IEnumerable<Pet>> GetPets()
+        {
+            return Ok(context.Pets.ToList());
+        }
+        [HttpGet("{id}")]
+        public ActionResult<Pet> GetPetById(int id)
+        {
+            var evt = context.Pets.FirstOrDefault(x=>x.PetId==id);
+            if(evt==null)
+            {
+                return NotFound();
+            }
+            return Ok(evt);
+        }
+        [HttpGet("filter")]
+        public ActionResult<IEnumerable<Pet>> GetPetsByType([FromQuery] string type)
+        {
+            return Ok(context.Pets.Where(x=>x.Type==type));
+        }
+        [HttpPost]
+        public ActionResult<Pet> CreatePet(Pet pet)
+        {
+            context.Pets.Add(pet);
+            context.SaveChanges();
+            return CreatedAtAction(nameof(GetPetById),new{id=pet.PetId},pet);
+        }
+    }
+}
+ 
+---------------------------------------------------------------------------------
+Models:
+ 
+using System;
+using System.ComponentModel.DataAnnotations;
+namespace dotnetapp.Models
+{
+    public class Pet
+    {
+        [Key]
+        public int PetId{get;set;}
+        public string Name{get;set;}
+        public string Type{get;set;}
+        public string Breed{get;set;}
+        public int Age{get;set;}
+        public string Description{get;set;}
+    }
+}
+ 
+----------------------------------------------------------------------------
+Program.cs:
+ 
+using dotnetapp.Models;
+using dotnetapp.Data;
+using dotnetapp.Controllers;
+using Microsoft.EntityFrameworkCore;
+var builder = WebApplication.CreateBuilder(args);
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options=>options.UseSqlServer(builder.Configuration.GetConnectionString("myconnstring"))
+);
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+var app = builder.Build();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+app.Run();
+ 
+------------------------------------------------------------------------
+ApplicationDbContext:
+ 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+ 
+using dotnetapp.Models;
+using Microsoft.EntityFrameworkCore;
+namespace dotnetapp.Data
+{
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext(DbContextOptions options) : base(options)
+        {
+        }
+        public DbSet<Pet> Pets{get;set;}
+    }
+}
+ 
+
+appdsetting.json:
+ 
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "myconnstring": "User ID=sa;password=examlyMssql@123;server=localhost;Database=appdb;trusted_connection=false;Persist Security Info=False;Encrypt=False"
+  }
+}
+ 
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+50000000000000000000000
+    w3day5 ses2 cod 2
+    dotnetapp/Controllers/HomeController.cs
+
+    using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using dotnetapp.Models;
+
+namespace dotnetapp.Controllers;
+
+public class HomeController : Controller
+{
+    private readonly ILogger<HomeController> _logger;
+
+    public HomeController(ILogger<HomeController> logger)
+    {
+        _logger = logger;
+    }
+
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    public IActionResult Privacy()
+    {
+        return View();
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+}
+
+dotnetapp/Models/ApplicationDbContext.cs
+using dotnetapp.Models;
+using Microsoft.EntityFrameworkCore;
+namespace dotnetapp.Models{
+    public class ApplicationDbContext: DbContext{
+        public ApplicationDbContext(DbContextOptions options): base(options){
+
+        }
+        public DbSet<Course> Courses{get;set;}
+        public DbSet<Student>Students{get;set;}
+        public DbSet<Enrollment>Enrollments{get;set;}
+        public DbSet<Instructor>Instructors{get;set;}
+        public DbSet<CourseAssignment>CourseAssignments{get;set;}
+
+    }
+}
+
+dotnetapp/Models/Course.cs
+namespace dotnetapp.Models{
+    public class Course{
+    public int CourseID{get;set;}
+    public string Title{get;set;}
+    public int Credits{get;set;}
+    public ICollection<Enrollment> Enrollments{get;set;}
+}
+}
+dotnetapp/Models/CourseAssignment.cs
+namespace dotnetapp.Models{
+    public class CourseAssignment{
+    public int CourseAssignmentID{get;set;}
+    public int CourseID{get;set;}
+    public int InstructorID{get;set;}
+    public Course? Course{get;set;}
+    public Instructor? Instructor{get;set;}
+}
+}
+dotnetapp/Models/Enrollment.cs
+namespace dotnetapp.Models{
+public class Enrollment{
+    public int EnrollmentID{get;set;}
+    public int CourseID{get;set;}
+    public int StudentID{get;set;}
+    public Course? Course{get;set;}
+    public Student? Student{get;set;}
+}
+}
+dotnetapp/Models/Instructor.cs
+
+namespace dotnetapp.Models{
+    public class Instructor{
+    public int InstructorID{get;set;}
+    public string FirstName{get;set;}
+    public string LastName{get;set;}
+    public DateTime HireDate{get;set;}
+    public ICollection<CourseAssignment> CourseAssignments{get;set;}
+    
+}
+}
+dotnetapp/Models/Student.cs
+namespace dotnetapp.Models{
+public class Student{
+    public int StudentID{get;set;}
+    public string FirstName{get;set;}
+    public string LastName{get;set;}
+    public ICollection<Enrollment> Enrollments{get;set;}
+}
+}
+dotnetapp/Program.cs
+
+using dotnetapp.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
+
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options=>options.UseSqlServer(builder.Configuration.GetConnectionString("myconnstring"))
+);
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
