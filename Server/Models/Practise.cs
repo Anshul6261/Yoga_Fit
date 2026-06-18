@@ -1,92 +1,114 @@
-1st question:
-header {
-    text-align: center;
-    background-color: #5ed33a;
+1st qustion:
+<div class="container">
+    <h1>BMI Calculator</h1>
+
+    <form id="bmi-form">
+        <label for="gender">Gender:</label>
+        <select id="gender">
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight">
+
+        <label for="height">Height (cm):</label>
+        <input type="number" id="height">
+
+        <button type="button" onclick="calculateBMI()">Calculate</button>
+    </form>
+
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+function calculateBMI() {
+    const gender = document.getElementById("gender").value;
+    const weight = document.getElementById("weight").value;
+    const height = document.getElementById("height").value;
+    const result = document.getElementById("result");
+
+    if (!gender || !weight || !height) {
+        result.innerHTML = "Please fill out all fields.";
+        result.style.color = "black";
+        return;
+    }
+
+    const h = height / 100;
+    const bmi = (weight / (h * h)).toFixed(2);
+
+    let category = "";
+    let color = "";
+    let message = "";
+
+    if (bmi < 18.5) {
+        category = "Underweight";
+        color = "blue";
+    } else if (bmi < 25) {
+        category = "Normal Weight";
+        color = "green";
+    } else if (bmi < 30) {
+        category = "Overweight";
+        color = "orange";
+    } else {
+        category = "Obese";
+        color = "red";
+    }
+
+    if (gender === "male") {
+        message = "Healthy BMI range for men is 18.5 - 24.9";
+    } else {
+        message = "Healthy BMI range for women is 18.5 - 24.9";
+    }
+
+    result.innerHTML =
+        `BMI: ${bmi}<br>Category: ${category}<br>${message}`;
+    result.style.color = color;
+}
+</script>
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+}
+
+.container {
+    width: 400px;
+    margin: 40px auto;
     padding: 20px;
+    background: white;
+    border-radius: 10px;
 }
-
-h2 {
-    text-align: center;
-    color: #0779e4;
-}
-
-img {
-    border-radius: 5px;
-}
-
-.image-container {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: flex-start;
-}
-
-.image-container p {
-    margin: 0;
-}
-
-
-
-
-2nd question:
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillUp Login Form</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <h1>Welcome to SkillUp - Learn, Grow, Succeed!</h1>
-
-    <h2>LOGIN FORM</h2>
-
-    <div class="login-form">
-        <label for="username">Username:</label><br><br>
-        <input type="text" id="username"><br><br>
-
-        <label for="password">Password:</label><br><br>
-        <input type="password" id="password"><br><br>
-
-        <button type="submit">Login</button>
-    </div>
-
-</body>
-</html>
-`
 
 h1 {
-    color: rgb(255, 0, 0);
     text-align: center;
 }
 
-h2 {
-    text-align: center;
-}
-
-.login-form {
-    width: 400px;
-    margin: auto;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    padding: 20px;
-}
-
-#username,
-#password {
+label,
+select,
+input,
+button {
+    display: block;
     width: 100%;
+    margin-bottom: 15px;
+}
+
+select,
+input {
     padding: 10px;
-    border-radius: 5px;
-    box-sizing: border-box;
 }
 
 button {
-    width: 100%;
     padding: 10px;
-    background-color: rgb(0, 0, 255);
+    background: #0d6efd;
     color: white;
     border: none;
-    border-radius: 5px;
+    cursor: pointer;
+}
+
+.result {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 15px;
 }
