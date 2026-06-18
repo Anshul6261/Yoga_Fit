@@ -669,6 +669,8 @@ app.Run();
 
 */
 /*
+
+tip cal
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -762,6 +764,89 @@ app.Run();
  
  
  
+ bmi cal
+
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+</head>
+<body>
+   <div class="container">
+    <h1>BMI Calculator</h1>
+    <form id="bmi-form">
+       <label for ="gender">Gender:</label>
+       <select id="gender">
+        <option value="">Select Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+       </select>
+       <label for="weight">Weight (kg):</label>
+       <input type="number" id="weight">
+       <label for="height">Height (cm):</label>
+       <input type="number" id="height">
+       <button type="button" onclick="calculateBMI()">
+        Calculate</button>
+       </form>
+       <div id="result" class="result"></div>
+ 
+   </div>
+   <script>
+    function calculateBMI()
+    {
+        let gender=document.getElementById("gender").value;
+        let weight=parseFloat(document.getElementById("weight").value);
+        let height=parseFloat(document.getElementById("height").value);
+        let result=document.getElementById("result");
+        if(gender===""||document.getElementById("weight").value===""||document.getElementById("height").value==="")
+        {
+            result.innerHTML="Please fill out all feilds.";
+            result.style.color="black";
+            return;
+        }
+        let h=height/100;
+        let bmi=weight/(h*h);
+        bmi=bmi.toFixed(2);
+        let message="";
+        if(bmi<18.5)
+        {
+            result.style.color="blue";
+            message="Your BMI is "+bmi+" (Underweight).<br>";
+        }
+        else if(bmi<24.9)
+        {
+            result.style.color="green";
+            message="Your BMI is "+bmi+" (Normal weight).<br>";
+        }
+        else if(bmi<29.9)
+        {
+            result.style.color="orange";
+            message="Your BMI is "+bmi+" (Overweight).<br>";
+        }
+        else
+        {
+            result.style.color="red";
+            message="Your BMI is "+bmi+" (Obese).<br>";
+        }
+        if(gender==="male")
+        {
+            message+="For men, a BMI between 18.5 and 24.9 is considered healthy.";
+        }
+        else
+        {
+            message+="For women, a BMI between 18.5 and 24.9 is considered healthy.";
+        }
+        result.innerHTML=message;
+ 
+ 
+ 
+    }
+    </script>
+</body>
+</html>
  
  
 */
