@@ -3,132 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI Calculator</title>
+    <title>Tip Calculator</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f2f2f2;
+            background-color: #f4f4f4;
         }
 
         .container {
-            width: 400px;
-            margin: 40px auto;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
             padding: 20px;
-            background: white;
-            border-radius: 10px;
         }
 
         h1 {
             text-align: center;
         }
 
-        label,
-        select,
+        #tipForm {
+            display: grid;
+            gap: 10px;
+        }
+
         input,
-        button {
-            display: block;
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        select,
-        input {
+        select {
             padding: 10px;
-            box-sizing: border-box;
+            font-size: 16px;
         }
 
         button {
-            padding: 10px;
-            background: #0d6efd;
-            color: white;
+            background-color: #4caf50;
+            color: #fff;
             border: none;
+            padding: 10px;
             cursor: pointer;
         }
 
-        .result {
-            text-align: center;
-            font-size: 20px;
-            margin-top: 15px;
+        #result {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>BMI Calculator</h1>
+        <h1>Tip Calculator</h1>
 
-        <form id="bmi-form">
-            <label for="gender">Gender:</label>
+        <form id="tipForm">
+            <label for="billAmount">Bill Amount:</label>
+            <input type="number" id="billAmount">
 
-            <select id="gender">
-                <option value="">Select Gender</option>
-                <option value="male">male</option>
-                <option value="female">female</option>
+            <label for="tipPercentage">Tip Percentage:</label>
+            <select id="tipPercentage">
+                <option value="5">5%</option>
+                <option value="10">10%</option>
+                <option value="15">15%</option>
+                <option value="20">20%</option>
             </select>
 
-            <label for="weight">Weight (kg):</label>
-            <input type="number" id="weight">
-
-            <label for="height">Height (cm):</label>
-            <input type="number" id="height">
-
-            <button type="button" onclick="calculateBMI()">Calculate</button>
+            <button type="button" onclick="calculateTip()">Calculate Tip</button>
         </form>
 
-        <div id="result" class="result"></div>
+        <div id="result">
+            <p>Tip Amount: <span id="tipAmount">0</span></p>
+            <p>Total Amount: <span id="totalAmount">0</span></p>
+        </div>
     </div>
 
     <script>
-        function calculateBMI() {
-            const gender = document.getElementById("gender").value;
-            const weight = document.getElementById("weight").value;
-            const height = document.getElementById("height").value;
-            const result = document.getElementById("result");
+        function calculateTip() {
+            const billAmount = parseFloat(document.getElementById("billAmount").value);
+            const tipPercentage = parseFloat(document.getElementById("tipPercentage").value);
 
-            if (!gender || !weight || !height) {
-                result.innerHTML = "Please fill out all fields.";
-                result.style.color = "black";
+            if (isNaN(billAmount) || billAmount <= 0) {
+                alert("Please enter a valid bill amount.");
                 return;
             }
 
-            const bmi = (
-                parseFloat(weight) /
-                Math.pow(parseFloat(height) / 100, 2)
-            ).toFixed(2);
+            const tipAmount = (billAmount * tipPercentage) / 100;
+            const totalAmount = billAmount + tipAmount;
 
-            let category = "";
-            let color = "";
-            let message = "";
+            document.getElementById("tipAmount").textContent =
+                tipAmount.toFixed(2);
 
-            if (bmi < 18.5) {
-                category = "Underweight";
-                color = "blue";
-            } else if (bmi >= 18.5 && bmi < 24.9) {
-                category = "Normal Weight";
-                color = "green";
-            } else if (bmi >= 25 && bmi < 29.9) {
-                category = "Overweight";
-                color = "orange";
-            } else {
-                category = "Obese";
-                color = "red";
-            }
-
-            if (gender === "male") {
-                message = "Healthy BMI range for men is 18.5 - 24.9";
-            } else {
-                message = "Healthy BMI range for women is 18.5 - 24.9";
-            }
-
-            result.innerHTML =
-                "BMI: " + bmi +
-                "<br>" +
-                category +
-                "<br>" +
-                message;
-
-            result.style.color = color;
+            document.getElementById("totalAmount").textContent =
+                totalAmount.toFixed(2);
         }
     </script>
 
