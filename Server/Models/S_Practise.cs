@@ -668,3 +668,105 @@ app.Run();
 
 
 */
+/*
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator</title>
+    <style>
+        body{
+            background: #f4f4f4;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .container
+        {
+            max-width: 600px;
+            margin:50px auto;
+            background-color:#fff;
+            padding: 20px;
+        }
+        h1{
+            text-align: center;
+        }
+        #tipForm
+        {
+            display:grid;
+            gap:10px;
+        }
+        input,select{
+            padding : 10px;
+        }
+        button
+        {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+        }
+        #result
+        {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+   <div class="container">
+      <h1>Tip Calculator</h1>
+      <form id="tipForm">
+        <label>Bill Amount:</label>
+        <input type="number" id="billAmount">
+        <label>Tip Percentage:</label>
+        <select id="tipPercentage">
+            <option value="5">5%</option>
+            <option value="10">10%</option>
+            <option value="15">15%</option>
+            <option value="20">20%</option>
+        </select>
+        <button type="button" onclick="calculateTip()">Calculate Tip</button>
+ 
+ 
+      </form>
+      <div id="result">
+        <p>
+            Tip Amount:
+            <span id="tipAmount">0</span>
+        </p>
+        <p>
+            Total Amount:
+            <span id="totalAmount">0</span>
+        </p>
+ 
+      </div>
+      </div>
+      <script>
+        function calculateTip()
+        {
+            let billAmount=parseFloat(document.getElementById("billAmount").value);
+            let tipPercentage=parseFloat(document.getElementById("tipPercentage").value);
+            if(isNaN(billAmount)||billAmount<=0)
+            {
+                alert("Please enter a valid bill amount");
+                return;
+            }
+            let tip=(billAmount*tipPercentage)/100;
+            let total=billAmount+tip;
+            document.getElementById("tipAmount").innerText=tip.toFixed(2);
+            document.getElementById("totalAmount").innerText=total.toFixed(2);
+        }
+    </script>
+</body>
+</html>
+ 
+ 
+ 
+ 
+ 
+*/
+
+
+
+
+
