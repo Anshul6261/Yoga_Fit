@@ -1,121 +1,94 @@
-!st one
+1st question:
+header {
+    text-align: center;
+    background-color: #5ed33a;
+    padding: 20px;
+}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML PRACTICE</title>
-</head>
-<body>
-    <h1>One</h1>
-    <hr>
+h2 {
+    text-align: center;
+    color: #0779e4;
+}
 
-    <h2>Two</h2>
-    <hr>
+img {
+    border-radius: 5px;
+}
 
-    <h3>Three</h3>
-    <hr>
+.image-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-start;
+}
 
-    <h4>Four</h4>
-    <hr>
-
-    <h5>Five</h5>
-    <hr>
-
-    <h6>Six</h6>
-    <hr>
-</body>
-</html>
+.image-container p {
+    margin: 0;
+}
 
 
-2nd One
+
+
+2nd question:
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Form</title>
+    <title>SkillUp Login Form</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1>HTML Form</h1>
+    <h1>Welcome to SkillUp - Learn, Grow, Succeed!</h1>
 
-    <form>
-        <label for="fname">First Name:</label>
-        <input type="text" id="fname" name="fname" placeholder="First Name">
+    <h2>LOGIN FORM</h2>
 
-        <label for="lname">Last Name:</label>
-        <input type="text" id="lname" name="lname" placeholder="Last Name">
+    <div class="login-form">
+        <form>
+            <label for="username">Username:</label><br><br>
+            <input type="text" id="username"><br><br>
 
-        <label for="age">Age</label>
-        <input type="number" id="age" name="age" placeholder="Age">
+            <label for="password">Password:</label><br><br>
+            <input type="password" id="password"><br><br>
 
-        <br><br>
-
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Email">
-
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Password">
-
-        <br><br><br>
-
-        <h3>Gender:</h3>
-
-        <input type="radio" id="male" name="gender" value="Male">
-        <label for="male">Male</label>
-
-        <input type="radio" id="female" name="gender" value="Female">
-        <label for="female">Female</label>
-
-        <br><br><br>
-
-        <h3>Select your device:</h3>
-
-        <input type="checkbox" id="macbook" name="device" value="Macbook">
-        <label for="macbook">Macbook</label>
-
-        <input type="checkbox" id="iphone" name="device" value="iphone">
-        <label for="iphone">iphone</label>
-
-        <input type="checkbox" id="ipad" name="device" value="ipad" checked>
-        <label for="ipad">ipad</label>
-
-        <br><br>
-
-        <label for="source">How did you hear about us?</label>
-
-        <select id="source" name="source">
-            <option selected>Search Engine</option>
-            <option>Social Media</option>
-            <option>Friend</option>
-            <option>Advertisement</option>
-        </select>
-
-        <br><br>
-
-        <input type="checkbox" id="news" name="news" checked>
-        <label for="news">Sign me up for News</label>
-
-        <br><br>
-
-        <label for="photo">Upload your photo</label>
-        <input type="file" id="photo" name="photo">
-
-        <br><br>
-
-        <label for="dob">Date of Birth:</label>
-        <input type="date" id="dob" name="dob">
-
-        <br><br>
-
-        <input type="reset" value="Reset">
-        <input type="submit" value="Sign up">
-
-    </form>
+            <input type="submit" value="Login">
+        </form>
+    </div>
 
 </body>
 </html>
+`
 
+h1 {
+    color: rgb(255, 0, 0);
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+.login-form {
+    width: 400px;
+    margin: 0 auto;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 30px;
+}
+
+#username,
+#password {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(0, 0, 255);
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
