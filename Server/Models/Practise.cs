@@ -587,277 +587,62 @@ app.Run();
 
 
 
-//pirate...............................................................................................................................................
-
-
-//html
-/*
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Form</title>
-</head>
-<body>
-    <h1>HTML Form</h1>
-    <form>
-    <label for="firstName">First Name:</label>
-    <input type="text" id="firstName" placeholder="First Name">
- 
-    <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" placeholder="Last Name">
- 
-    <label for="age">Age</label>
-    <input type="number" id="age" placeholder="Age">
- 
-    <label for="email">Email</label>
-    <input type="text" id="email" placeholder="Email">
- 
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="Password">
- 
-    <h3>Gender:</h3>
-    <input type="radio" id="male" name="gender" value="male">
-    <label for="male">Male</label>
-   
-    <input type="radio" id="female" name="gender" value="female">
-    <label for="female">Female</label>
- 
-    <h3>Select your device:</h3>
- 
-    <input type="checkbox" id="macbook" name="device" value="macbook">
-    <label for="macbook">Macbook</label>
-   
-    <input type="checkbox" id="iphone" name="device" value="iphone">
-    <label for="iphone">iphone</label>
- 
-    <input type="checkbox" id="ipad" name="device" value="ipad">
-    <label for="ipad">ipad</label>
-    </br>
- 
-    <label for id="aboutus">How did you hear about us?</label>
-    <select type="select" id="aboutus">
-        <option>Search Engine</option>
-        <option>Option 1</option>
-        <option>Option 2</option>
-    </select>
-    </br>
-   
-    <input type="checkbox" id="news" name="news" value="news">
-    <label for="news">Sign me up for News</label>
-    </br>
- 
-    <label for="choose">Upload your photo</label>
-    <input type="button" id="choose" value="Choose">
-    </br>
- 
-    <label for="dob">Date of Birth:</label>
-    <input type="date" id="dob">
- 
-    </br>
-    <button type="button">Reset</button>
- 
-    <button type="button">Sign up</button>
-    </br>
- 
-    </form>
-</body>
-</html>
-
-
-*/
-/*
-
-tip cal
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tip Calculator</title>
-    <style>
-        body{
-            background: #f4f4f4;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        .container
-        {
-            max-width: 600px;
-            margin:50px auto;
-            background-color:#fff;
-            padding: 20px;
-        }
-        h1{
-            text-align: center;
-        }
-        #tipForm
-        {
-            display:grid;
-            gap:10px;
-        }
-        input,select{
-            padding : 10px;
-        }
-        button
-        {
-            background-color: #4caf50;
-            color: #fff;
-            cursor: pointer;
-            padding: 10px;
-            border: none;
-        }
-        #result
-        {
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-   <div class="container">
-      <h1>Tip Calculator</h1>
-      <form id="tipForm">
-        <label>Bill Amount:</label>
-        <input type="number" id="billAmount">
-        <label>Tip Percentage:</label>
-        <select id="tipPercentage">
-            <option value="5">5%</option>
-            <option value="10">10%</option>
-            <option value="15">15%</option>
-            <option value="20">20%</option>
-        </select>
-        <button type="button" onclick="calculateTip()">Calculate Tip</button>
- 
- 
-      </form>
-      <div id="result">
-        <p>
-            Tip Amount:
-            <span id="tipAmount">0</span>
-        </p>
-        <p>
-            Total Amount:
-            <span id="totalAmount">0</span>
-        </p>
- 
-      </div>
-      </div>
-      <script>
-        function calculateTip()
-        {
-            let billAmount=parseFloat(document.getElementById("billAmount").value);
-            let tipPercentage=parseFloat(document.getElementById("tipPercentage").value);
-            if(isNaN(billAmount)||billAmount<=0)
-            {
-                alert("Please enter a valid bill amount");
-                return;
-            }
-            let tip=(billAmount*tipPercentage)/100;
-            let total=billAmount+tip;
-            document.getElementById("tipAmount").innerText=tip.toFixed(2);
-            document.getElementById("totalAmount").innerText=total.toFixed(2);
-        }
-    </script>
-</body>
-</html>
- 
- 
-
- 
- 
-*/
-iefcoiewnficwenvwecknwekc
-
-/*
-
- 
- bmi cal
-
-
- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI Calculator</title>
-</head>
-<body>
-   <div class="container">
-    <h1>BMI Calculator</h1>
-    <form id="bmi-form">
-       <label for ="gender">Gender:</label>
-       <select id="gender">
-        <option value="">Select Gender</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-       </select>
-       <label for="weight">Weight (kg):</label>
-       <input type="number" id="weight">
-       <label for="height">Height (cm):</label>
-       <input type="number" id="height">
-       <button type="button" onclick="calculateBMI()">
-        Calculate</button>
-       </form>
-       <div id="result" class="result"></div>
- 
-   </div>
-   <script>
-    function calculateBMI()
-    {
-        let gender=document.getElementById("gender").value;
-        let weight=parseFloat(document.getElementById("weight").value);
-        let height=parseFloat(document.getElementById("height").value);
-        let result=document.getElementById("result");
-        if(gender===""||document.getElementById("weight").value===""||document.getElementById("height").value==="")
-        {
-            result.innerHTML="Please fill out all feilds.";
-            result.style.color="black";
-            return;
-        }
-        let h=height/100;
-        let bmi=weight/(h*h);
-        bmi=bmi.toFixed(2);
-        let message="";
-        if(bmi<18.5)
-        {
-            result.style.color="blue";
-            message="Your BMI is "+bmi+" (Underweight).<br>";
-        }
-        else if(bmi<24.9)
-        {
-            result.style.color="green";
-            message="Your BMI is "+bmi+" (Normal weight).<br>";
-        }
-        else if(bmi<29.9)
-        {
-            result.style.color="orange";
-            message="Your BMI is "+bmi+" (Overweight).<br>";
-        }
-        else
-        {
-            result.style.color="red";
-            message="Your BMI is "+bmi+" (Obese).<br>";
-        }
-        if(gender==="male")
-        {
-            message+="For men, a BMI between 18.5 and 24.9 is considered healthy.";
-        }
-        else
-        {
-            message+="For women, a BMI between 18.5 and 24.9 is considered healthy.";
-        }
-        result.innerHTML=message;
- 
- 
- 
+class Rectangle {
+    constructor(width, height) {
+        this.width = width;
+        this.height = height;
     }
-    </script>
-</body>
-</html>
- 
-*/
 
+    calculateArea() {
+        return this.width * this.height;
+    }
+
+    calculatePerimeter() {
+        return 2 * (this.width + this.height);
+    }
+}
+
+const input = require('fs').readFileSync(0, 'utf8').trim().split(/\s+/).map(Number);
+
+const width = input[0];
+const height = input[1];
+
+const rect = new Rectangle(width, height);
+
+console.log("Area: " + rect.calculateArea());
+console.log("Perimeter: " + rect.calculatePerimeter());
+
+
+
+const fs = require('fs');
+const input = fs.readFileSync(0, 'utf8').trim().split(/\s+/).map(Number);
+
+const a = input[0];
+const b = input[1];
+
+function errorLoggingMiddleware(callback) {
+    return function (...args) {
+        try {
+            return callback(...args);
+        } catch (error) {
+            console.log("Error:", error.message);
+        }
+    };
+}
+
+function divide(x, y) {
+    if (y === 0) {
+        throw new Error("Division by zero");
+    }
+    return x / y;
+}
+
+const safeDivide = errorLoggingMiddleware(divide);
+const result = safeDivide(a, b);
+
+if (result !== undefined) {
+    console.log("Result: " + result);
+}
 
 
 
