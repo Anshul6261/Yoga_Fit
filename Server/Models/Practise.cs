@@ -277,5 +277,10 @@ function App() {
 export default App;                           
 
 
+https://8080-effcdcebcfff350826963eadcbaafbcaone.premiumproject.examly.io/api/surveys
+                           https://8080-effcdcebcfff350826963eadcbaafbcaone.premiumproject.examly.io/api/surveys
+                           https://8080-effcdcebcfff350826963eadcbaafbcaone.premiumproject.examly.io/api/surveys/1
+                           https://8080-effcdcebcfff350826963eadcbaafbcaone.premiumproject.examly.io/api/surveys/1
+                           https://8080-effcdcebcfff350826963eadcbaafbcaone.premiumproject.examly.io/api/surveys/0
                            
  
