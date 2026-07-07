@@ -327,4 +327,182 @@ namespace dotnetapp.Managers
        
     }
 }
+
+using System;
+using System.Collections.Generic;
+using dotnetapp.Models;
+using dotnetapp.Services;
  
+namespace dotnetapp.Managers
+{
+   
+    public class BookManager: IBookManager // Class for user input
+    {    
+        public static List<Book> b1 = new List<Book>();
+ 
+        public void AddBook(int libraryId)
+        {  
+            Console.Write("Enter Book Title: ");
+            string title = Console.ReadLine();
+ 
+            Console.Write("Enter Author Name: ");
+            string author = Console.ReadLine();
+ 
+            Console.Write("Enter Category: ");
+            string category = Console.ReadLine();
+ 
+            Console.Write("Enter Price: ");
+            decimal price = decimal.Parse(Console.ReadLine());
+ 
+            BooksService.AddBook(b1,libraryId,title, author,category,price);
+        }
+ 
+        public void ListBooks()
+        {  
+            BooksService.ListBooks(b1, LibraryManager.l1);
+        }
+ 
+        public void FindBook(string bookTitle)
+        {
+            BooksService.FindBook(b1, bookTitle);
+        }
+ 
+        public void EditBook()
+        {
+            Console.Write("Enter Book ID to edit: ");
+            int id = int.Parse(Console.ReadLine());
+ 
+            Console.Write("Enter new Title (leave empty to keep current): ");
+            string title = Console.ReadLine();
+ 
+            Console.Write("Enter new Author (leave empty to keep current): ");
+            string author = Console.ReadLine();
+ 
+            Console.Write("Enter new Category (leave empty to keep current): ");
+            string category = Console.ReadLine();
+ 
+            Console.Write("Enter new Price (leave empty to keep current): ");
+            string price = Console.ReadLine();
+ 
+            BooksService.EditBook(b1,id,title, author,category,price);
+        }
+        public void DeleteBook()
+        {
+            Console.Write("Enter Book ID to delete: ");
+            int id = int.Parse(Console.ReadLine());
+            BooksService.DeleteBook(b1, id);
+ 
+        }
+ 
+        public void AddBookToDB(int libraryId)
+        {
+            Console.Write("Enter Book Title: ");
+            string title = Console.ReadLine();
+ 
+            Console.Write("Enter Author Name: ");
+            string author = Console.ReadLine();
+ 
+            Console.Write("Enter Category: ");
+            string category = Console.ReadLine();
+ 
+            Console.Write("Enter Price: ");
+            decimal price = decimal.Parse(Console.ReadLine());
+ 
+            BooksService.AddBookToDB(libraryId,title, author,category,price);
+        }
+   
+ 
+        public void ListBooksFromDB()
+        {
+            BooksService.ListBooksFromDB();
+        }
+ 
+        public void EditBookInDB()
+        {
+            Console.Write("Enter Book ID to edit: ");
+            int id = int.Parse(Console.ReadLine());
+ 
+            Console.Write("Enter new Title (leave empty to keep current): ");
+            string title = Console.ReadLine();
+ 
+            Console.Write("Enter new Author (leave empty to keep current): ");
+            string author = Console.ReadLine();
+ 
+            Console.Write("Enter new Category (leave empty to keep current): ");
+            string category = Console.ReadLine();
+ 
+            Console.Write("Enter new Price (leave empty to keep current): ");
+            string price = Console.ReadLine();
+ 
+            BooksService.EditBookInDB(id,title, author,category,price);
+        }
+ 
+        public void DeleteBookFromDB()
+        {
+            Console.Write("Enter Book ID to delete: ");
+            int id = int.Parse(Console.ReadLine());
+            BooksService.DeleteBookFromDB(id);  
+        }
+ 
+ 
+    }
+ 
+}
+ 
+ 
+using System;
+using System.Collections.Generic;
+using dotnetapp.Services;
+using dotnetapp.Models;
+ 
+namespace dotnetapp.Managers
+{  
+    public class LibraryManager: ILibraryManager // Class for user input
+ 
+    {  
+        public static List<Library> l1 = new List<Library>();
+        public void AddLibrary()
+        {  
+            Console.Write("Enter Library Name: ");
+            string name = Console.ReadLine();
+ 
+            Console.Write("Enter Address: ");
+            string address = Console.ReadLine();
+ 
+            Console.Write("Enter Maximum Capacity: ");
+            int maxCapacity = int.Parse(Console.ReadLine());
+ 
+            LibrariesService.AddLibrary(l1, name, address, maxCapacity);
+ 
+        }
+ 
+        public void ListLibraries()
+        {
+            LibrariesService.ListLibraries(l1);
+        }
+ 
+        public void AddLibraryToDB()
+        {
+            Console.Write("Enter Library Name: ");
+            string name = Console.ReadLine();
+ 
+            Console.Write("Enter Address: ");
+            string address = Console.ReadLine();
+ 
+            Console.Write("Enter Maximum Capacity: ");
+            int maxCapacity = int.Parse(Console.ReadLine());
+ 
+            LibrariesService.AddLibraryToDB(name, address, maxCapacity);
+ 
+        }
+ 
+        public void ListLibrariesFromDB()
+        {
+            LibrariesService.ListLibrariesFromDB();
+        }
+    }
+}
+ 
+ 
+
+
